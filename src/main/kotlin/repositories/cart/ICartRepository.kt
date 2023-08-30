@@ -1,8 +1,8 @@
 package repositories.cart
 
-import models.cart.item.CartItem
+import models.products.base.Product
 import repositories.base.IEntityRepository
 
-interface ICartRepository: IEntityRepository<CartItem> {
+interface ICartRepository: IEntityRepository<Product> {
 
 }

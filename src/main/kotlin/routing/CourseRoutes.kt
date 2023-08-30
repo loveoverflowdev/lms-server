@@ -13,6 +13,7 @@ import dtos.response.StatusDTO
 import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
+import io.ktor.server.util.*
 
 import repositories.products.course.CourseRepository
 import repositories.products.course.ICourseRepository
@@ -26,7 +27,7 @@ val courseService: ICourseService = CourseService(courseRepository)
 fun Route.courseRoutes() {
     route("/courses") {
         get {
-            call.respondRedirect(permanent = true, url = "top")
+            call.respondRedirect("courses/top")
         }
         get("top") {
             val command = GetCourseListOnTopCommand()

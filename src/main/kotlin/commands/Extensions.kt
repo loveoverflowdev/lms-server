@@ -11,9 +11,8 @@ fun CreateCourseCommand.toEntity(): Course {
         coverImage = coverImage ?: "",
         instructor = instructor ?: "",
         description = description ?: "",
-        durationBySeconds = durationBySeconds,
-        price = price ?: 0.0,
-        tags = tags ?: mutableListOf(),
+        primaryCoins = 0.0,
+        secondaryCoins = 0.0,
     );
 }
 
@@ -24,8 +23,7 @@ fun UpdateCourseCommand.toEntity(): Course {
         coverImage = coverImage ?: "",
         instructor = instructor ?: "",
         description = description ?: "",
-        durationBySeconds = durationBySeconds,
-        price = price ?: 0.0,
-        tags = tags ?: mutableListOf(),
+        primaryCoins = 0.0,
+        secondaryCoins = 0.0,
     );
 }

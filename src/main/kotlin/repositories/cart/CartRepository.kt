@@ -1,30 +1,30 @@
 package repositories.cart;
 
-import models.cart.item.CartItem
+import models.products.base.Product
 import repositories.base.BaseRepository
 
-class CartRepository: BaseRepository<CartItem>(), ICartRepository {
-    override suspend fun getAll(): Result<List<CartItem>> {
+class CartRepository: BaseRepository<Product>(), ICartRepository {
+    override suspend fun getAll(): Result<List<Product>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun findById(id: String): Result<CartItem?> {
+    override suspend fun findById(id: String): Result<Product?> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun find(predicate: (CartItem) -> Boolean): Result<List<CartItem>> {
+    override suspend fun find(predicate: (Product) -> Boolean): Result<List<Product>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun add(entity: CartItem): Result<CartItem> {
+    override suspend fun add(entity: Product): Result<Product> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun delete(id: String): Result<CartItem?> {
+    override suspend fun delete(id: String): Result<Product?> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun update(item: CartItem): Result<CartItem?> {
+    override suspend fun update(item: Product): Result<Product?> {
         TODO("Not yet implemented")
     }
 
