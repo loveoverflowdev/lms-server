@@ -3,27 +3,27 @@ package commands
 import models.products.course.Course
 import java.util.*
 
-fun CreateCourseCommand.toEntity(): Course {
-    val uniqueID = UUID.randomUUID().toString()
+fun CreateCourseCommand.toModel(): Course {
+    // val uniqueID = UUID.randomUUID().toString()
     return Course(
-        id = uniqueID,
+        id = "",
         title = title ?: "",
-        coverImage = coverImage ?: "",
+        coverImage = coverImage,
         instructor = instructor ?: "",
         description = description ?: "",
-        primaryCoins = 0.0,
-        secondaryCoins = 0.0,
+        primaryCoins = primaryCoins ?: 0,
+        secondaryCoins = secondaryCoins ?: 0,
     );
 }
 
-fun UpdateCourseCommand.toEntity(): Course {
+fun UpdateCourseCommand.toModel(): Course {
     return Course(
         id = id,
         title = title ?: "",
         coverImage = coverImage ?: "",
         instructor = instructor ?: "",
         description = description ?: "",
-        primaryCoins = 0.0,
-        secondaryCoins = 0.0,
+        primaryCoins = 0,
+        secondaryCoins = 0,
     );
 }

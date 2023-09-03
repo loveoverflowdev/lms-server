@@ -6,8 +6,8 @@ class CourseGroup(
     id: String,
     title: String,
     coverImage: String,
-    primaryCoins: Double,
-    secondaryCoins: Double?,
+    primaryCoins: Int,
+    secondaryCoins: Int?,
     description: String,
 ): Product(
     id = id,

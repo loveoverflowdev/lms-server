@@ -15,16 +15,16 @@ data class CourseDTO(
     val instructor: String,
 
     @SerializedName(value = "coverImage")
-    val coverImage: String,
+    val coverImage: String?,
 
     @SerializedName(value = "description")
     val description: String,
 
     @SerializedName(value = "primaryCoins")
-    val primaryCoins: Double,
+    val primaryCoins: Int,
 
     @SerializedName(value = "secondaryCoins")
-    val secondaryCoins: Double?
+    val secondaryCoins: Int?
 ) : BaseDTO() {
     companion object {
         fun of(course: Course): CourseDTO {

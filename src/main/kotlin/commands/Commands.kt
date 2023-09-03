@@ -2,13 +2,13 @@ package commands
 
 /// Course
 class CreateCourseCommand(
-    val title: String,
-    val coverImage: String,
-    val instructor: String,
-    val description: String,
-    val primaryCoins: Double,
-    val secondaryCoins: Double,
-    val tags: MutableList<String>?,
+    val title: String?,
+    val coverImage: String?,
+    val instructor: String?,
+    val description: String?,
+    val primaryCoins: Int?,
+    val secondaryCoins: Int?,
+    val tags: List<String>?,
 )
 
 class DeleteCourseCommand(val id: String)
@@ -80,7 +80,4 @@ class BuyCoins()
 class EnrollCourse()
 
 class EnrollCourseGroup()
-
-
-
 

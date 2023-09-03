@@ -1,5 +1,7 @@
 import com.typesafe.config.ConfigFactory
 import database.DatabaseFactory
+import database.schemas.products.course.CourseEntity
+import database.schemas.products.course.CourseSchema
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 import io.ktor.server.engine.*
@@ -27,6 +29,7 @@ fun main() {
             port = config.property("ktor.deployment.port").getString().toInt()
         }
     }
+
     embeddedServer(Netty, appEngineEnv).start(wait = true)
 }
 

@@ -1,9 +1,20 @@
 package repositories.products.course
 
+import database.DatabaseFactory
+import database.schemas.products.course.CourseEntity
+import database.schemas.products.course.CourseSchema
 import models.products.course.Course
 import repositories.base.BaseRepository
+import java.sql.SQLException
 
 class CourseRepository: BaseRepository<Course>(), ICourseRepository {
+
+    private val courseSchema: CourseSchema? = DatabaseFactory.databaseShared?.let {
+        CourseSchema(
+            database = it
+        )
+    }
+
     override suspend fun getAll(): Result<List<Course>> {
         return Result.success(mutableListOf(
             Course(
@@ -12,8 +23,8 @@ class CourseRepository: BaseRepository<Course>(), ICourseRepository {
                 coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
                 instructor = "Corey Schafer",
                 description = "Development",
-                primaryCoins = 0.0,
-                secondaryCoins = 0.0
+                primaryCoins = 0,
+                secondaryCoins = 0
             ),
             Course(
                 id = "sùydgsudjfsdjbsdjfbsdjfnsdf",
@@ -21,8 +32,8 @@ class CourseRepository: BaseRepository<Course>(), ICourseRepository {
                 coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
                 instructor = "Corey Schafer",
                 description = "Development",
-                primaryCoins = 0.0,
-                secondaryCoins = 0.0
+                primaryCoins = 0,
+                secondaryCoins = 0
             ),
             Course(
                 id = "sùydgsudjfsdjbsdjfbsdjfnsdf",
@@ -30,26 +41,8 @@ class CourseRepository: BaseRepository<Course>(), ICourseRepository {
                 coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
                 instructor = "Corey Schafer",
                 description = "Development",
-                primaryCoins = 0.0,
-                secondaryCoins = 0.0
-            ),
-            Course(
-                id = "sùydgsudjfsdjbsdjfbsdjfnsdf",
-                title = "Learn Python like a Professional",
-                coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
-                instructor = "Corey Schafer",
-                description = "Development",
-                primaryCoins = 0.0,
-                secondaryCoins = 0.0
-            ),
-            Course(
-                id = "sùydgsudjfsdjbsdjfbsdjfnsdf",
-                title = "Learn Python like a Professional",
-                coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
-                instructor = "Corey Schafer",
-                description = "Development",
-                primaryCoins = 0.0,
-                secondaryCoins = 0.0
+                primaryCoins = 0,
+                secondaryCoins = 0
             ),
         ))
     }
@@ -61,8 +54,8 @@ class CourseRepository: BaseRepository<Course>(), ICourseRepository {
             coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
             instructor = "Corey Schafer",
             description = "Development",
-            primaryCoins = 0.0,
-            secondaryCoins = 0.0
+            primaryCoins = 0,
+            secondaryCoins = 0
         ))
     }
 
@@ -70,15 +63,20 @@ class CourseRepository: BaseRepository<Course>(), ICourseRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun add(entity: Course): Result<Course> {
-        return Result.success(entity)
+    override suspend fun add(model: Course): Result<Course> {
+        return courseSchema
+            ?.create(CourseEntity.of(model))
+            ?.run {
+                Result.success(toModel())
+            }
+            ?: Result.failure(SQLException("Error while insert course to database"))
     }
 
     override suspend fun delete(id: String): Result<Course?> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun update(item: Course): Result<Course?> {
+    override suspend fun update(model: Course): Result<Course?> {
         TODO("Not yet implemented")
     }
 }

@@ -8,6 +8,7 @@ import io.ktor.server.plugins.*
 import io.ktor.server.plugins.requestvalidation.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
+import java.sql.SQLException
 
 fun Application.configureStatusPage() {
     install(StatusPages) {
@@ -35,6 +36,18 @@ fun Application.configureStatusPage() {
                 )
             )
         }
+        exception<SQLException>() { call, error ->
+            val httpStatus = HttpStatusCode.InternalServerError
+            call.respond(
+                httpStatus, ResponseDTO(
+                    status = StatusDTO(
+                        httpStatus.value,
+                        message = error.message.toString()
+                    ),
+                    data = null
+                )
+            )
+        }
     }
 }
 
@@ -49,4 +62,3 @@ object ErrorMessage {
     const val TYPE_CAST_EXCEPTION = "Type cast exception"
     const val NULL_POINTER_ERROR = "Null pointer error : "
 }
-

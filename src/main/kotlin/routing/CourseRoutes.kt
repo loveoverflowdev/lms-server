@@ -6,14 +6,12 @@ import io.ktor.server.application.*
 import io.ktor.server.routing.*
 
 import commands.GetCourseListOnTopCommand
-
 import dtos.products.course.CourseDTO
 import dtos.response.ResponseDTO
 import dtos.response.StatusDTO
 import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
-import io.ktor.server.util.*
 
 import repositories.products.course.CourseRepository
 import repositories.products.course.ICourseRepository
@@ -44,7 +42,7 @@ fun Route.courseRoutes() {
     route("/course") {
         get("{id}") {
             val id = call.parameters["id"]
-            if (id.isNullOrEmpty()) {
+            if (id.isNullOrBlank()) {
                 throw BadRequestException("Missing [id] for course detail request")
             }
             val command = GetCourseByIdCommand(id)
