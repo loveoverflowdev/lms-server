@@ -11,6 +11,17 @@ class CreateCourseCommand(
     val tags: List<String>?,
 )
 
+class UpdateCourseCommand(
+    val id: String,
+    val title: String?,
+    val coverImage: String?,
+    val instructor: String?,
+    val description: String?,
+    val primaryCoins: Int?,
+    val secondaryCoins: Int?,
+    val tags: MutableList<String>? = mutableListOf()
+)
+
 class DeleteCourseCommand(val id: String)
 
 class GetCourseListBySearchTextCommand(val searchText: String?)
@@ -18,16 +29,6 @@ class GetCourseListBySearchTextCommand(val searchText: String?)
 class GetCourseListOnTopCommand()
 
 class GetCourseByIdCommand(val id: String?)
-
-class UpdateCourseCommand(
-    val id: String,
-    val title: String?,
-    val coverImage: String?,
-    val instructor: String?,
-    val description: String?,
-    val price: Double?,
-    val tags: MutableList<String>? = mutableListOf()
-)
 
 /// Course Group
 class GetCourseGroupListOnTopCommand()
