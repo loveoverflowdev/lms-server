@@ -1,5 +1,6 @@
 package repositories.base
 
+import io.ktor.server.plugins.*
 import models.base.Model
 
 open class BaseRepository<TModel>: IEntityRepository<TModel> where TModel: Model {
@@ -19,18 +20,18 @@ open class BaseRepository<TModel>: IEntityRepository<TModel> where TModel: Model
         return Result.success(filteredModels)
     }
 
-    override suspend fun delete(id: String): Result<TModel?> {
+    override suspend fun delete(id: String): Result<TModel> {
         val index = models.indexOfFirst { it.id == id }
         if (index < 0 ) {
-            return Result.success(null)
+            return Result.failure(NotFoundException("Not found the given model id"))
         }
         return Result.success(models.removeAt(index))
     }
 
-    override suspend fun update(id: String, model: TModel): Result<TModel?> {
+    override suspend fun update(id: String, model: TModel): Result<TModel> {
         val index = models.indexOfFirst { it.id == model.id }
         if (index < 0) {
-            return  Result.success(null)
+            return Result.failure(NotFoundException("Not found the given model id"))
         }
         models[index] = model;
         return Result.success(models[index])

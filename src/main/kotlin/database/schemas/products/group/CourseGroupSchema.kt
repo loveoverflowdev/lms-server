@@ -31,7 +31,7 @@ data class CourseGroupEntity(
         }
     }
 
-    override fun toModel(): Model {
+    override fun toModel(): CourseGroup {
         return CourseGroup(
             id = this.id,
             title = this.title,

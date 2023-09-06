@@ -16,15 +16,15 @@ class CartRepository: BaseRepository<Product>(), ICartRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun add(entity: Product): Result<Product> {
+    override suspend fun add(model: Product): Result<Product> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun delete(id: String): Result<Product?> {
+    override suspend fun delete(id: String): Result<Product> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun update(item: Product): Result<Product?> {
+    override suspend fun update(id: String, model: Product): Result<Product> {
         TODO("Not yet implemented")
     }
 
