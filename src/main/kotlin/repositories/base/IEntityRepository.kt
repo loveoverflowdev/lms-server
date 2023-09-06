@@ -7,6 +7,6 @@ interface IEntityRepository<TModel> {
     suspend fun findById(id: String): Result<TModel?>
     suspend fun find(predicate: (TModel) -> Boolean): Result<List<TModel>>
     suspend fun add(model: TModel): Result<TModel>
-    suspend fun delete(id: String): Result<TModel?>
-    suspend fun update(model: TModel): Result<TModel?>
+    suspend fun delete(id: String): Result<TModel>
+    suspend fun update(id: String, model: TModel): Result<TModel>
 }

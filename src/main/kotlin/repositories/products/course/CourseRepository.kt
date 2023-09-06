@@ -9,11 +9,9 @@ import java.sql.SQLException
 
 class CourseRepository: BaseRepository<Course>(), ICourseRepository {
 
-    private val courseSchema: CourseSchema? = DatabaseFactory.databaseShared?.let {
-        CourseSchema(
-            database = it
-        )
-    }
+    private val courseSchema: CourseSchema = CourseSchema(
+        database = DatabaseFactory.databaseShared
+    )
 
     override suspend fun getAll(): Result<List<Course>> {
         return Result.success(mutableListOf(
@@ -64,19 +62,22 @@ class CourseRepository: BaseRepository<Course>(), ICourseRepository {
     }
 
     override suspend fun add(model: Course): Result<Course> {
+        return courseSchema.create(CourseEntity.of(model))
+            .run {
+                Result.success(toModel())
+            }
+    }
+
+    override suspend fun delete(id: String): Result<Course> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun update(id: String, model: Course): Result<Course> {
         return courseSchema
-            ?.create(CourseEntity.of(model))
+            .update(id, CourseEntity.of(model))
             ?.run {
                 Result.success(toModel())
             }
-            ?: Result.failure(SQLException("Error while insert course to database"))
-    }
-
-    override suspend fun delete(id: String): Result<Course?> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun update(model: Course): Result<Course?> {
-        TODO("Not yet implemented")
+            ?: Result.failure(SQLException("Error while update course in database"))
     }
 }

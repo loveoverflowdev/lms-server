@@ -6,6 +6,7 @@ import io.ktor.server.application.*
 import io.ktor.server.routing.*
 
 import commands.GetCourseListOnTopCommand
+import commands.UpdateCourseCommand
 import dtos.products.course.CourseDTO
 import dtos.response.ResponseDTO
 import dtos.response.StatusDTO
@@ -66,6 +67,15 @@ fun Route.courseRoutes() {
                     status = StatusDTO(code = 200)
                 ))
             }.onFailure { throw it }
+        }
+
+        put {
+            val command = call.receive<UpdateCourseCommand>()
+            val courseResponse = courseService.updateCourse(command)
+            courseResponse.onSuccess { course ->
+                val courseDto = CourseDTO.of(course)
+
+            }
         }
     }
 }

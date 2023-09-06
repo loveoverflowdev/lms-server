@@ -26,11 +26,11 @@ class CourseService(
         return courseRepository.add(command.toModel())
     }
 
-    override suspend fun updateCourse(command: UpdateCourseCommand): Result<Course?> {
+    override suspend fun updateCourse(command: UpdateCourseCommand): Result<Course> {
         return courseRepository.update(command.toModel())
     }
 
-    override suspend fun deleteCourse(command: DeleteCourseCommand): Result<Course?> {
+    override suspend fun deleteCourse(command: DeleteCourseCommand): Result<Course> {
         return courseRepository.delete(command.id)
     }
 }

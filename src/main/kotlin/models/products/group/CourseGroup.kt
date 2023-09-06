@@ -5,7 +5,7 @@ import models.products.base.Product
 class CourseGroup(
     id: String,
     title: String,
-    coverImage: String,
+    coverImage: String?,
     primaryCoins: Int,
     secondaryCoins: Int?,
     description: String,

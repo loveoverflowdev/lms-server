@@ -73,7 +73,7 @@ class CourseSchema(
                  primaryCoins = this[CourseTable.primaryCoins],
                  secondaryCoins = this[CourseTable.secondaryCoins],
                  description = this[CourseTable.description],
-                 instructor = this[CourseTable.instructor],
+                 instructor = this[CourseTable.instructor]
              )
         }
     }

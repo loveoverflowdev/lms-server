@@ -27,7 +27,7 @@ open class BaseRepository<TModel>: IEntityRepository<TModel> where TModel: Model
         return Result.success(models.removeAt(index))
     }
 
-    override suspend fun update(model: TModel): Result<TModel?> {
+    override suspend fun update(id: String, model: TModel): Result<TModel?> {
         val index = models.indexOfFirst { it.id == model.id }
         if (index < 0) {
             return  Result.success(null)
