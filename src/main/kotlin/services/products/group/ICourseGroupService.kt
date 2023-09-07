@@ -2,6 +2,7 @@ package services.products.group
 
 import commands.*
 import models.products.group.CourseGroup
+import org.jetbrains.annotations.Nullable
 
 interface ICourseGroupService {
     suspend fun getCourseGroupListOnTop(command: GetCourseListOnTopCommand)

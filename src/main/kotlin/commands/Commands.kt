@@ -44,8 +44,8 @@ class DeleteCourseGroupCommand()
 class GetCourseGroupByIdCommand()
 
 class AddCourseToGroupCommand(
-    val courseId: String,
-    val courseGroupId: String,
+    val courseId: String?,
+    val courseGroupId: String?,
 )
 
 /// Category

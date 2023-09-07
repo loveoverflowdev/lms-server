@@ -33,8 +33,8 @@ class CourseGroupService(
 
     override suspend fun addCourseToGroup(command: AddCourseToGroupCommand) {
         courseGroupRepository.addCourseToGroup(
-            courseId = command.courseId,
-            courseGroupId = command.courseGroupId,
+            courseId = command.courseId ?: "",
+            courseGroupId = command.courseGroupId ?: "",
         )
     }
 }

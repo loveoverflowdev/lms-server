@@ -1,7 +1,7 @@
 package plugins
 
+import commands.AddCourseToGroupCommand
 import commands.CreateCourseCommand
-import commands.GetCourseByIdCommand
 import commands.UpdateCourseCommand
 import io.ktor.server.application.*
 import io.ktor.server.plugins.requestvalidation.*
@@ -26,6 +26,15 @@ fun Application.configureRequestValidation() {
                 ValidationResult.Invalid("Missing [description] in the request")
             } else if (command.primaryCoins == null){
                 ValidationResult.Invalid("Missing [primaryCoins] in the request")
+            } else {
+                ValidationResult.Valid
+            }
+        }
+        validate<AddCourseToGroupCommand>() { command ->
+            if (command.courseGroupId.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [courseGroupId] in the request")
+            } else if (command.courseId.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [courseId] in the request")
             } else {
                 ValidationResult.Valid
             }

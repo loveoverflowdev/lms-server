@@ -7,6 +7,7 @@ import database.schemas.membership.CourseGroupMembershipEntity
 import database.schemas.membership.CourseGroupMembershipSchema
 import models.products.course.Course
 import models.products.group.CourseGroup
+import org.jetbrains.annotations.Nullable
 import repositories.base.BaseRepository
 import java.sql.SQLException
 
@@ -20,7 +21,7 @@ class CourseGroupRepository: BaseRepository<CourseGroup>(), ICourseGroupReposito
         database = DatabaseFactory.databaseShared
     )
 
-    suspend fun addCourseToGroup(courseId: String, courseGroupId: String) {
+    override suspend fun addCourseToGroup(courseId: String, courseGroupId: String) {
         courseGroupMembershipSchema.create(CourseGroupMembershipEntity(
             id = "",
             courseId = courseId,
@@ -28,7 +29,7 @@ class CourseGroupRepository: BaseRepository<CourseGroup>(), ICourseGroupReposito
         ))
     }
 
-    suspend fun removeCourseFromGroup(courseId: String, courseGroupId: String) {
+    override  suspend fun removeCourseFromGroup(courseId: String, courseGroupId: String) {
         courseGroupMembershipSchema.delete(
             courseId = courseId,
             courseGroupId = courseGroupId,

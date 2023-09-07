@@ -59,23 +59,15 @@ class CourseGroupMembershipSchema(
     suspend fun delete(courseId: String, courseGroupId: String)
     : CourseGroupMembershipEntity? = dbQuery {
         CourseGroupMembershipTable.deleteWhere {
-            CourseGroupMembershipTable.courseId.eq(courseId)
             CourseGroupMembershipTable.courseGroupId.eq(courseGroupId)
+            CourseGroupMembershipTable.courseId.eq(courseId)
         }
         null
     }
 
     override suspend fun delete(id: String)
-    : CourseGroupMembershipEntity? = dbQuery {
-        read(id)?.let { entity ->
-            CourseGroupMembershipTable.deleteWhere { CourseGroupMembershipTable.id.eq(id) }.let { deleteResult ->
-                if (deleteResult > 0) {
-                    entity
-                } else {
-                    null
-                }
-            }
-        }
+    : CourseGroupMembershipEntity? {
+        throw NotImplementedError()
     }
 
     override suspend fun update(id: String, entity: CourseGroupMembershipEntity)
