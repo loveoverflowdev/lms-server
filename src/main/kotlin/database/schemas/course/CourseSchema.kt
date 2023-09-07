@@ -57,7 +57,8 @@ object CourseTable: BaseTable("course") {
 class CourseSchema(
     database: Database
 ) : BaseSchema<CourseTable, CourseEntity>(database) {
-    override suspend fun create(entity: CourseEntity): CourseEntity = dbQuery {
+    override suspend fun create(entity: CourseEntity)
+    : CourseEntity = dbQuery {
          CourseTable.insert {
             it[title] = entity.title
             it[coverImage] = entity.coverImage
@@ -78,7 +79,8 @@ class CourseSchema(
         }
     }
 
-    override suspend fun read(id: String): CourseEntity? = dbQuery {
+    override suspend fun read(id: String)
+    : CourseEntity? = dbQuery {
         CourseTable.select {
             CourseTable.id.eq(id)
         }.map {
@@ -94,7 +96,8 @@ class CourseSchema(
         }.singleOrNull()
     }
 
-    override suspend fun delete(id: String): CourseEntity? = dbQuery {
+    override suspend fun delete(id: String)
+    : CourseEntity? = dbQuery {
         read(id)?.let { entity ->
             CourseTable.deleteWhere { CourseTable.id.eq(id) }.let { deleteResult ->
                 if (deleteResult > 0) {
@@ -106,7 +109,8 @@ class CourseSchema(
         }
     }
 
-    override suspend fun update(id: String, entity: CourseEntity): CourseEntity? = dbQuery {
+    override suspend fun update(id: String, entity: CourseEntity)
+    : CourseEntity? = dbQuery {
         CourseTable.update({
             CourseTable.id.eq(id)
         }) {

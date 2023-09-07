@@ -5,9 +5,8 @@ import database.schemas.base.BaseSchema
 import database.schemas.base.BaseTable
 import database.schemas.course.CourseTable
 import models.products.group.CourseGroup
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 data class CourseGroupEntity(
     override val id: String,
@@ -55,7 +54,8 @@ object CourseGroupTable: BaseTable("course_group") {
 class CourseGroupSchema(
     database: Database
 ) : BaseSchema<CourseGroupTable, CourseGroupEntity>(database) {
-    override suspend fun create(entity: CourseGroupEntity): CourseGroupEntity = dbQuery {
+    override suspend fun create(entity: CourseGroupEntity)
+    : CourseGroupEntity = dbQuery {
         CourseGroupTable.insert {
             it[title] = entity.title
             it[coverImage] = entity.coverImage
@@ -74,27 +74,52 @@ class CourseGroupSchema(
         }
     }
 
-    override suspend fun read(id: String): CourseGroupEntity? = dbQuery {
+    override suspend fun read(id: String)
+    : CourseGroupEntity? = dbQuery {
         CourseGroupTable.select {
             CourseGroupTable.id.eq(id)
         }.map {
             CourseGroupEntity(
-                id = it[CourseTable.id].value,
-                title = it[CourseTable.title],
-                coverImage = it[CourseTable.coverImage],
-                primaryCoins = it[CourseTable.primaryCoins],
-                secondaryCoins = it[CourseTable.secondaryCoins],
-                description = it[CourseTable.description],
+                id = it[CourseGroupTable.id].value,
+                title = it[CourseGroupTable.title],
+                coverImage = it[CourseGroupTable.coverImage],
+                primaryCoins = it[CourseGroupTable.primaryCoins],
+                secondaryCoins = it[CourseGroupTable.secondaryCoins],
+                description = it[CourseGroupTable.description]
             )
         }.singleOrNull()
     }
 
-    override suspend fun update(id: String, entity: CourseGroupEntity): CourseGroupEntity? {
-        TODO("Not yet implemented")
+    override suspend fun update(id: String, entity: CourseGroupEntity)
+    : CourseGroupEntity? = dbQuery{
+        CourseGroupTable.update({
+            CourseGroupTable.id.eq(id)
+        }) {
+            it[title] = entity.title
+            it[coverImage] = entity.coverImage
+            it[primaryCoins] = entity.primaryCoins
+            it[secondaryCoins] = entity.secondaryCoins
+            it[description] = entity.description
+        }.let { updateResult ->
+            if (updateResult > 0) {
+                entity.copy(id = id)
+            } else {
+                null
+            }
+        }
     }
 
-    override suspend fun delete(id: String): CourseGroupEntity? {
-        TODO("Not yet implemented")
+    override suspend fun delete(id: String)
+    : CourseGroupEntity? = dbQuery {
+        read(id)?.let { entity ->
+            CourseGroupTable.deleteWhere { CourseGroupTable.id.eq(id) }.let { deleteResult ->
+                if (deleteResult > 0) {
+                    entity
+                } else {
+                    null
+                }
+            }
+        }
     }
 }
 
