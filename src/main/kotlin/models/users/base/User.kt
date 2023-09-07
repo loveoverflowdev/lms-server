@@ -4,5 +4,7 @@ import models.base.Model
 
 abstract class User(
     id: String,
-    val password: String,
-): Model(id)
+    val displayName: String,
+    val username: String,
+    val hashedPassword: String
+) : Model(id)

@@ -1,13 +1,11 @@
 package routing
 
-import commands.CreateCourseCommand
-import commands.GetCourseByIdCommand
+import commands.*
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 
-import commands.GetCourseListOnTopCommand
-import commands.UpdateCourseCommand
 import dtos.products.course.CourseDTO
+import dtos.products.group.CourseGroupDTO
 import dtos.response.ResponseDTO
 import dtos.response.StatusDTO
 import io.ktor.server.plugins.*
@@ -16,12 +14,19 @@ import io.ktor.server.response.*
 
 import repositories.products.course.CourseRepository
 import repositories.products.course.ICourseRepository
+import repositories.products.group.CourseGroupRepository
+import repositories.products.group.ICourseGroupRepository
 
 import services.products.course.CourseService
 import services.products.course.ICourseService
+import services.products.group.CourseGroupService
+import services.products.group.ICourseGroupService
 
 val courseRepository: ICourseRepository = CourseRepository()
 val courseService: ICourseService = CourseService(courseRepository)
+
+val courseGroupRepository: ICourseGroupRepository = CourseGroupRepository()
+val courseGroupService: ICourseGroupService = CourseGroupService(courseGroupRepository)
 
 fun Route.courseRoutes() {
     route("/courses") {
@@ -76,6 +81,26 @@ fun Route.courseRoutes() {
                 val courseDto = CourseDTO.of(course)
 
             }
+        }
+    }
+}
+
+fun Route.courseGroupRoutes() {
+    route("/course-groups") {
+        get {
+            call.respondRedirect("course-groups/top")
+        }
+        get("top") {
+            val command = GetCourseGroupListOnTopCommand()
+            val courseGroupResponse = courseGroupService.getCourseGroupListOnTop(command)
+            courseGroupResponse.onSuccess { courseGroups ->
+                val courseGroupDto = courseGroups.map { CourseGroupDTO.of(it) }
+                call.respond(
+                    ResponseDTO(
+                        data = courseGroupDto,
+                    )
+                )
+            }.onFailure { throw it }
         }
     }
 }

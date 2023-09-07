@@ -5,7 +5,7 @@ import models.products.group.CourseGroup
 import org.jetbrains.annotations.Nullable
 
 interface ICourseGroupService {
-    suspend fun getCourseGroupListOnTop(command: GetCourseListOnTopCommand)
+    suspend fun getCourseGroupListOnTop(command: GetCourseGroupListOnTopCommand)
     : Result<List<CourseGroup>>
 
     suspend fun getCourseGroupListBySearchTextCommand(command: GetCourseListBySearchTextCommand)
