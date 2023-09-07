@@ -2,7 +2,7 @@ package services.products.course
 
 import commands.*
 import database.DatabaseFactory
-import database.schemas.products.course.CourseSchema
+import database.schemas.course.CourseSchema
 import models.products.course.Course
 import repositories.products.course.ICourseRepository
 

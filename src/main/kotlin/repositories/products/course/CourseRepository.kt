@@ -1,8 +1,8 @@
 package repositories.products.course
 
 import database.DatabaseFactory
-import database.schemas.products.course.CourseEntity
-import database.schemas.products.course.CourseSchema
+import database.schemas.course.CourseEntity
+import database.schemas.course.CourseSchema
 import models.products.course.Course
 import repositories.base.BaseRepository
 import java.sql.SQLException

@@ -8,7 +8,8 @@ class Seller(
     username: String,
     hashedPassword: String,
     val email: String,
-    val phoneNumber: String
+    val phoneNumber: String,
+    val affiliateCode: String,
 ) : User(
     id = id,
     displayName = displayName,

@@ -1,4 +1,4 @@
-package database.schemas.products.course
+package database.schemas.course
 
 import database.schemas.base.BaseEntity
 import database.schemas.base.BaseSchema

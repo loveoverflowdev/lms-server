@@ -1,7 +1,7 @@
 import com.typesafe.config.ConfigFactory
 import database.DatabaseFactory
-import database.schemas.products.course.CourseEntity
-import database.schemas.products.course.CourseSchema
+import database.schemas.course.CourseEntity
+import database.schemas.course.CourseSchema
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 import io.ktor.server.engine.*

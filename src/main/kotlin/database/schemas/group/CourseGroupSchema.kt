@@ -1,10 +1,9 @@
-package database.schemas.products.group
+package database.schemas.group
 
 import database.schemas.base.BaseEntity
 import database.schemas.base.BaseSchema
 import database.schemas.base.BaseTable
-import database.schemas.products.course.CourseTable
-import models.base.Model
+import database.schemas.course.CourseTable
 import models.products.group.CourseGroup
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.insert
@@ -97,10 +96,7 @@ class CourseGroupSchema(
     override suspend fun delete(id: String): CourseGroupEntity? {
         TODO("Not yet implemented")
     }
-
-
 }
-
 
 
 
