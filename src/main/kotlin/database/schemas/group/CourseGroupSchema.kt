@@ -3,7 +3,6 @@ package database.schemas.group
 import database.schemas.base.BaseEntity
 import database.schemas.base.BaseSchema
 import database.schemas.base.BaseTable
-import database.schemas.course.CourseTable
 import models.products.group.CourseGroup
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -122,7 +121,4 @@ class CourseGroupSchema(
         }
     }
 }
-
-
-
 

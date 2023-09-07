@@ -3,6 +3,9 @@ package repositories.products.group
 import database.DatabaseFactory
 import database.schemas.group.CourseGroupEntity
 import database.schemas.group.CourseGroupSchema
+import database.schemas.membership.CourseGroupMembershipEntity
+import database.schemas.membership.CourseGroupMembershipSchema
+import models.products.course.Course
 import models.products.group.CourseGroup
 import repositories.base.BaseRepository
 import java.sql.SQLException
@@ -12,6 +15,25 @@ class CourseGroupRepository: BaseRepository<CourseGroup>(), ICourseGroupReposito
     private val courseGroupSchema: CourseGroupSchema = CourseGroupSchema(
         database = DatabaseFactory.databaseShared
     )
+
+    private val courseGroupMembershipSchema: CourseGroupMembershipSchema = CourseGroupMembershipSchema(
+        database = DatabaseFactory.databaseShared
+    )
+
+    suspend fun addCourseToGroup(courseId: String, courseGroupId: String) {
+        courseGroupMembershipSchema.create(CourseGroupMembershipEntity(
+            id = "",
+            courseId = courseId,
+            courseGroupId = courseGroupId
+        ))
+    }
+
+    suspend fun removeCourseFromGroup(courseId: String, courseGroupId: String) {
+        courseGroupMembershipSchema.delete(
+            courseId = courseId,
+            courseGroupId = courseGroupId,
+        )
+    }
 
     override suspend fun getAll(): Result<List<CourseGroup>> {
         return Result.success(mutableListOf(

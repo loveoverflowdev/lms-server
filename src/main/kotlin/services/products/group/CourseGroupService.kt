@@ -2,8 +2,11 @@ package services.products.group
 
 import commands.*
 import models.products.group.CourseGroup
+import repositories.products.group.CourseGroupRepository
 
-class CourseGroupService() : ICourseGroupService {
+class CourseGroupService(
+    private val courseGroupRepository: CourseGroupRepository
+) : ICourseGroupService {
     override suspend fun getCourseGroupListOnTop(command: GetCourseListOnTopCommand): Result<List<CourseGroup>> {
         TODO("Not yet implemented")
     }
@@ -28,4 +31,10 @@ class CourseGroupService() : ICourseGroupService {
         TODO("Not yet implemented")
     }
 
+    override suspend fun addCourseToGroup(command: AddCourseToGroupCommand) {
+        courseGroupRepository.addCourseToGroup(
+            courseId = command.courseId,
+            courseGroupId = command.courseGroupId,
+        )
+    }
 }

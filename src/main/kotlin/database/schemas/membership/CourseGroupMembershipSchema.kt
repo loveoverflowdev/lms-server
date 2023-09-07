@@ -56,6 +56,15 @@ class CourseGroupMembershipSchema(
         }.singleOrNull()
     }
 
+    suspend fun delete(courseId: String, courseGroupId: String)
+    : CourseGroupMembershipEntity? = dbQuery {
+        CourseGroupMembershipTable.deleteWhere {
+            CourseGroupMembershipTable.courseId.eq(courseId)
+            CourseGroupMembershipTable.courseGroupId.eq(courseGroupId)
+        }
+        null
+    }
+
     override suspend fun delete(id: String)
     : CourseGroupMembershipEntity? = dbQuery {
         read(id)?.let { entity ->
