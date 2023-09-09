@@ -5,7 +5,6 @@ import io.ktor.server.application.*
 import io.ktor.server.routing.*
 
 import dtos.products.course.CourseDTO
-import dtos.products.group.CourseGroupDTO
 import dtos.response.ResponseDTO
 import dtos.response.StatusDTO
 import io.ktor.server.plugins.*
@@ -35,13 +34,13 @@ fun Route.courseRoutes() {
         }
         get("top") {
             val command = GetCourseListOnTopCommand()
-            val coursesResponse = courseService.getCourseListOnTop(command)
-            coursesResponse.onSuccess { courses ->
-                val coursesDto = courses.map { CourseDTO.of(it) }
-                call.respond(ResponseDTO(
-                    data = coursesDto,
-                ))
-            }.onFailure { throw it }
+            courseService.getCourseListOnTop(command)
+                .onSuccess { courses ->
+                    val coursesDto = courses.map { CourseDTO.of(it) }
+                    call.respond(ResponseDTO(
+                        data = coursesDto,
+                    ))
+                }.onFailure { throw it }
         }
     }
 
@@ -52,55 +51,51 @@ fun Route.courseRoutes() {
                 throw BadRequestException("Missing [id] for course detail request")
             }
             val command = GetCourseByIdCommand(id)
-            val coursesResponse = courseService.getCourseById(command)
-            coursesResponse.onSuccess { course ->
-                val courseDto = if(course == null) null else CourseDTO.of(course)
-                call.respond(ResponseDTO(
-                    data = courseDto,
-                    status = StatusDTO(code = 200)
-                ))
-            }.onFailure { throw it }
+            courseService.getCourseById(command)
+                .onSuccess {
+                    val courseDto = if(it == null) null else CourseDTO.of(it)
+                    call.respond(ResponseDTO(
+                        data = courseDto,
+                    ))
+                }
+                .onFailure { throw it }
         }
 
         post {
             val command = call.receive<CreateCourseCommand>()
-            val courseResponse = courseService.createCourse(command)
-            courseResponse.onSuccess { course ->
-                val courseDto = CourseDTO.of(course)
-                call.respond(ResponseDTO(
-                    data = courseDto,
-                    status = StatusDTO(code = 200)
-                ))
-            }.onFailure { throw it }
+            courseService.createCourse(command)
+                .onSuccess {
+                    val courseDto = CourseDTO.of(it)
+                    call.respond(ResponseDTO(
+                        data = courseDto,
+                    ))
+                }
+                .onFailure { throw it }
         }
 
         put {
             val command = call.receive<UpdateCourseCommand>()
-            val courseResponse = courseService.updateCourse(command)
-            courseResponse.onSuccess { course ->
-                val courseDto = CourseDTO.of(course)
-
-            }
+            courseService.updateCourse(command)
+                .onSuccess {
+                    val courseDto = CourseDTO.of(it)
+                    call.respond(ResponseDTO(
+                        data = courseDto,
+                    ))
+                }
+                .onFailure { throw it }
         }
-    }
-}
 
-fun Route.courseGroupRoutes() {
-    route("/course-groups") {
-        get {
-            call.respondRedirect("course-groups/top")
-        }
-        get("top") {
-            val command = GetCourseGroupListOnTopCommand()
-            val courseGroupResponse = courseGroupService.getCourseGroupListOnTop(command)
-            courseGroupResponse.onSuccess { courseGroups ->
-                val courseGroupDto = courseGroups.map { CourseGroupDTO.of(it) }
-                call.respond(
-                    ResponseDTO(
-                        data = courseGroupDto,
-                    )
-                )
-            }.onFailure { throw it }
+        delete {
+            val command = call.receive<DeleteCourseCommand>()
+            courseService.deleteCourse(command)
+                .onSuccess {
+                    val courseDto = CourseDTO.of(it)
+                    call.respond(ResponseDTO(
+                        data = courseDto,
+                    ))
+                }
+                .onFailure { throw it }
+
         }
     }
 }
