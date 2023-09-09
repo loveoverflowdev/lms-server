@@ -69,7 +69,12 @@ class CourseRepository: BaseRepository<Course>(), ICourseRepository {
     }
 
     override suspend fun delete(id: String): Result<Course> {
-        TODO("Not yet implemented")
+        return courseSchema
+            .delete(id)
+            ?.run {
+                Result.success(toModel())
+            }
+            ?: Result.failure(SQLException("Error while delete course in database"))
     }
 
     override suspend fun update(id: String, model: Course): Result<Course> {

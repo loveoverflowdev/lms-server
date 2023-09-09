@@ -8,32 +8,34 @@ class CourseGroupService(
     private val courseGroupRepository: ICourseGroupRepository
 ) : ICourseGroupService {
     override suspend fun getCourseGroupListOnTop(command: GetCourseGroupListOnTopCommand): Result<List<CourseGroup>> {
-        TODO("Not yet implemented")
+        return courseGroupRepository.getAll()
     }
 
     override suspend fun getCourseGroupListBySearchTextCommand(command: GetCourseListBySearchTextCommand): Result<List<CourseGroup>> {
-        TODO("Not yet implemented")
+        return courseGroupRepository.getAll()
     }
 
-    override suspend fun getCourseById(command: GetCourseByIdCommand): Result<CourseGroup> {
-        TODO("Not yet implemented")
+    override suspend fun getCourseGroupById(command: GetCourseGroupByIdCommand): Result<CourseGroup?> {
+        return courseGroupRepository.findById(command.id ?: "")
     }
 
-    override suspend fun createCourseGroup(command: CreateCourseCommand): Result<CourseGroup> {
-        TODO("Not yet implemented")
+    override suspend fun createCourseGroup(command: CreateCourseGroupCommand): Result<CourseGroup> {
+        return courseGroupRepository.add(command.toModel())
     }
 
     override suspend fun updateCourseGroup(command: UpdateCourseGroupCommand): Result<CourseGroup> {
-        TODO("Not yet implemented")
+        return courseGroupRepository.update(command.id, command.toModel())
     }
 
     override suspend fun deleteCourseGroup(command: DeleteCourseGroupCommand): Result<CourseGroup> {
-        TODO("Not yet implemented")
+        return courseGroupRepository.delete(
+            id = command.id ?: "",
+        )
     }
 
     override suspend fun addCourseToGroup(command: AddCourseToGroupCommand) {
         courseGroupRepository.addCourseToGroup(
-            courseId = command.courseId ?: "",
+            courseId = command.id ?: "",
             courseGroupId = command.courseGroupId ?: "",
         )
     }

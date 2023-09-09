@@ -35,17 +35,35 @@ class GetCourseGroupListOnTopCommand()
 
 class GetCourseGroupListBySearchTextCommand()
 
-class UpdateCourseGroupCommand()
+class UpdateCourseGroupCommand(
+    val id: String,
+    val title: String?,
+    val coverImage: String?,
+    val description: String?,
+    val primaryCoins: Int?,
+    val secondaryCoins: Int?,
+)
 
-class CreateCourseGroupCommand()
+class CreateCourseGroupCommand(
+    val id: String,
+    val title: String?,
+    val coverImage: String?,
+    val description: String?,
+    val primaryCoins: Int?,
+    val secondaryCoins: Int?
+)
 
-class DeleteCourseGroupCommand()
+class DeleteCourseGroupCommand(
+    val id: String?
+)
 
-class GetCourseGroupByIdCommand()
+class GetCourseGroupByIdCommand(
+    val id: String?
+)
 
 class AddCourseToGroupCommand(
-    val courseId: String?,
-    val courseGroupId: String?,
+    val id: String?,
+    val courseGroupId: String?
 )
 
 /// Category
@@ -81,9 +99,7 @@ class ClearCart()
 /// Coin
 class BuyCoins()
 
-
 /// Enrollment
 class EnrollCourse()
 
 class EnrollCourseGroup()
-

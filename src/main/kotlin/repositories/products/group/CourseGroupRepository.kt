@@ -90,7 +90,11 @@ class CourseGroupRepository: BaseRepository<CourseGroup>(), ICourseGroupReposito
     }
 
     override suspend fun delete(id: String): Result<CourseGroup> {
-        TODO("Not yet implemented")
+        return courseGroupSchema.delete(id)
+            ?.run {
+                Result.success(toModel())
+            }
+            ?: Result.failure(SQLException("Error while update course in database"))
     }
 
     override suspend fun update(id: String, model: CourseGroup): Result<CourseGroup> {

@@ -6,26 +6,18 @@ import io.ktor.server.routing.*
 
 import dtos.products.course.CourseDTO
 import dtos.response.ResponseDTO
-import dtos.response.StatusDTO
 import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 
 import repositories.products.course.CourseRepository
 import repositories.products.course.ICourseRepository
-import repositories.products.group.CourseGroupRepository
-import repositories.products.group.ICourseGroupRepository
 
 import services.products.course.CourseService
 import services.products.course.ICourseService
-import services.products.group.CourseGroupService
-import services.products.group.ICourseGroupService
 
 val courseRepository: ICourseRepository = CourseRepository()
 val courseService: ICourseService = CourseService(courseRepository)
-
-val courseGroupRepository: ICourseGroupRepository = CourseGroupRepository()
-val courseGroupService: ICourseGroupService = CourseGroupService(courseGroupRepository)
 
 fun Route.courseRoutes() {
     route("/courses") {
@@ -85,7 +77,11 @@ fun Route.courseRoutes() {
                 .onFailure { throw it }
         }
 
-        delete {
+        delete("{id}") {
+            val id = call.parameters["id"]
+            if (id.isNullOrBlank()) {
+                throw BadRequestException("Missing [id] for course deleting")
+            }
             val command = call.receive<DeleteCourseCommand>()
             courseService.deleteCourse(command)
                 .onSuccess {
