@@ -23,7 +23,7 @@ class CourseService(
     }
 
     override suspend fun createCourse(command: CreateCourseCommand): Result<Course> {
-        return courseRepository.add(command.toModel())
+        return courseRepository.create(command.toModel())
     }
 
     override suspend fun updateCourse(command: UpdateCourseCommand): Result<Course> {

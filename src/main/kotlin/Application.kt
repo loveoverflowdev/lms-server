@@ -1,15 +1,11 @@
 import com.typesafe.config.ConfigFactory
 import database.DatabaseFactory
-import database.schemas.course.CourseEntity
-import database.schemas.course.CourseSchema
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import org.slf4j.LoggerFactory
-import plugins.configureBasic
-import plugins.configureRequestValidation
-import plugins.configureRouting
+import plugins.*
 import plugins.configureStatusPage
 
 fun main() {
@@ -21,6 +17,7 @@ fun main() {
         module {
             DatabaseFactory.init()
             configureBasic()
+            configureAuthentication()
             configureStatusPage()
             configureRouting()
         }

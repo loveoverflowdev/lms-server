@@ -33,7 +33,7 @@ fun Application.configureRequestValidation() {
         validate<AddCourseToGroupCommand>() { command ->
             if (command.courseGroupId.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [courseGroupId] in the request")
-            } else if (command.courseId.isNullOrBlank()) {
+            } else if (command.id.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [courseId] in the request")
             } else {
                 ValidationResult.Valid

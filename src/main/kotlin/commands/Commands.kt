@@ -76,7 +76,11 @@ class GetCategoryListCommand()
 class DeleteCategoryCommand()
 
 /// Authentication
-class LogInCommand()
+class CustomerLogInCommand()
+
+class AdminLoginCommand()
+
+class SellerLoginCommand()
 
 class SignUpCommand()
 

@@ -78,6 +78,14 @@ object UserTable: BaseTable("user") {
 class UserSchema(
     database: Database,
 ) : BaseSchema<UserTable, UserEntity>(database) {
+
+    suspend fun authenticateUser(username: String, password: String, role: UserRole): UserEntity? = dbQuery {
+        val hashedPassword =
+        UserTable.select {
+            UserTable.username.eq(username)
+        }
+    }
+
     override suspend fun create(entity: UserEntity)
     : UserEntity = dbQuery {
         UserTable.insert {

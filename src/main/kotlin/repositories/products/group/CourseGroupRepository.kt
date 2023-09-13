@@ -5,13 +5,10 @@ import database.schemas.group.CourseGroupEntity
 import database.schemas.group.CourseGroupSchema
 import database.schemas.membership.CourseGroupMembershipEntity
 import database.schemas.membership.CourseGroupMembershipSchema
-import models.products.course.Course
 import models.products.group.CourseGroup
-import org.jetbrains.annotations.Nullable
-import repositories.base.BaseRepository
 import java.sql.SQLException
 
-class CourseGroupRepository: BaseRepository<CourseGroup>(), ICourseGroupRepository {
+class CourseGroupRepository: ICourseGroupRepository {
 
     private val courseGroupSchema: CourseGroupSchema = CourseGroupSchema(
         database = DatabaseFactory.databaseShared
@@ -82,7 +79,7 @@ class CourseGroupRepository: BaseRepository<CourseGroup>(), ICourseGroupReposito
         TODO("Not yet implemented")
     }
 
-    override suspend fun add(model: CourseGroup): Result<CourseGroup> {
+    override suspend fun create(model: CourseGroup): Result<CourseGroup> {
         return courseGroupSchema.create(CourseGroupEntity.of(model))
             .run {
                 Result.success(toModel())

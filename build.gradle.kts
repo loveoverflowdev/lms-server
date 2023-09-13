@@ -52,7 +52,7 @@ dependencies {
     implementation(dependencyNotation = "mysql:mysql-connector-java:8.0.28")
 
     /// Password Hashing
-    implementation("at.favre.lib:bcrypt:0.10.2")
+    implementation("org.mindrot:jbcrypt:0.4")
 
     /// Authentication
     implementation("io.ktor:ktor-server-auth:$ktor_version")

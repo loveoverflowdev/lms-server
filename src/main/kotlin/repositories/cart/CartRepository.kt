@@ -1,9 +1,8 @@
 package repositories.cart;
 
 import models.products.base.Product
-import repositories.base.BaseRepository
 
-class CartRepository: BaseRepository<Product>(), ICartRepository {
+class CartRepository: ICartRepository {
     override suspend fun getAll(): Result<List<Product>> {
         TODO("Not yet implemented")
     }
@@ -16,7 +15,7 @@ class CartRepository: BaseRepository<Product>(), ICartRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun add(model: Product): Result<Product> {
+    override suspend fun create(model: Product): Result<Product> {
         TODO("Not yet implemented")
     }
 

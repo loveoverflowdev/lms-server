@@ -20,7 +20,7 @@ class CourseGroupService(
     }
 
     override suspend fun createCourseGroup(command: CreateCourseGroupCommand): Result<CourseGroup> {
-        return courseGroupRepository.add(command.toModel())
+        return courseGroupRepository.create(command.toModel())
     }
 
     override suspend fun updateCourseGroup(command: UpdateCourseGroupCommand): Result<CourseGroup> {

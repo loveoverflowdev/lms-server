@@ -38,6 +38,7 @@ abstract class BaseSchema<TTable: Table, TEntity>(
 
     abstract suspend fun create(entity: TEntity): TEntity?
     abstract suspend fun read(id: String): TEntity?
+
     abstract suspend fun update(id: String, entity: TEntity): TEntity?
     abstract suspend fun delete(id: String): TEntity?
 
