@@ -76,11 +76,20 @@ class GetCategoryListCommand()
 class DeleteCategoryCommand()
 
 /// Authentication
-class CustomerLogInCommand()
+class CustomerLogInCommand(
+    val usernameOrEmail: String,
+    val password: String,
+)
 
-class AdminLoginCommand()
+class AdminLogInCommand(
+    val username: String,
+    val password: String,
+)
 
-class SellerLoginCommand()
+class SellerLogInCommand(
+    val username: String,
+    val password: String,
+)
 
 class SignUpCommand()
 

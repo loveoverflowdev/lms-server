@@ -1,22 +1,37 @@
 package services.users
 
+import commands.AdminLogInCommand
+import commands.CustomerLogInCommand
+import commands.SellerLogInCommand
+
+import repositories.user.IUserRepository
+
 import models.users.Admin
 import models.users.Customer
 import models.users.Seller
-import repositories.user.IUserRepository
+
 
 class UserService(
     private val userRepository: IUserRepository,
 ) : IUserService {
-    override suspend fun authenticateAdmin(): Result<Admin> {
-        TODO("Not yet implemented") // return userRepository.authenticateAdmin()
+    override suspend fun authenticateAdmin(command: AdminLogInCommand): Result<Admin> {
+        return userRepository.authenticateAdmin(
+            username = command.username,
+            password = command.password
+        )
     }
 
-    override suspend fun authenticateSeller(): Result<Seller> {
-        TODO("Not yet implemented")
+    override suspend fun authenticateSeller(command: SellerLogInCommand): Result<Seller> {
+        return userRepository.authenticateSeller(
+            username = command.username,
+            password = command.password
+        )
     }
 
-    override suspend fun authenticateCustomer(): Result<Customer> {
-        TODO("Not yet implemented")
+    override suspend fun authenticateCustomer(command: CustomerLogInCommand): Result<Customer> {
+        return userRepository.authenticateCustomer(
+            usernameOrEmail = command.usernameOrEmail,
+            password = command.password
+        )
     }
 }
