@@ -2,6 +2,7 @@ package services.users
 
 import commands.AdminLogInCommand
 import commands.CustomerLogInCommand
+import commands.CustomerRegisterCommand
 import commands.SellerLogInCommand
 
 import repositories.user.IUserRepository
@@ -31,6 +32,15 @@ class UserService(
     override suspend fun authenticateCustomer(command: CustomerLogInCommand): Result<Customer> {
         return userRepository.authenticateCustomer(
             usernameOrEmail = command.usernameOrEmail ?: "",
+            password = command.password ?: "",
+        )
+    }
+
+    override suspend fun registerCustomer(command: CustomerRegisterCommand): Result<Customer> {
+        return userRepository.registerCustomer(
+            email = command.email ?: "",
+            phoneNumber = command.phoneNumber ?: "",
+            username = command.username ?: "",
             password = command.password ?: "",
         )
     }

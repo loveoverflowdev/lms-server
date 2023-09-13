@@ -17,6 +17,7 @@ fun main() {
         module {
             DatabaseFactory.init()
             configureBasic()
+            configureRequestValidation()
             configureAuthentication()
             configureStatusPage()
             configureRouting()
@@ -28,12 +29,4 @@ fun main() {
     }
 
     embeddedServer(Netty, appEngineEnv).start(wait = true)
-}
-
-@Suppress("unused")
-fun Application.module() {
-    configureBasic()
-    configureRouting()
-    configureStatusPage()
-    configureRequestValidation()
 }

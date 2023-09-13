@@ -1,9 +1,6 @@
 package plugins
 
-import commands.AddCourseToGroupCommand
-import commands.CreateCourseCommand
-import commands.CustomerLogInCommand
-import commands.UpdateCourseCommand
+import commands.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.requestvalidation.*
 
@@ -14,6 +11,19 @@ fun Application.configureRequestValidation() {
                 ValidationResult.Invalid("Missing [username] or [email] in the request")
             } else if(command.password.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [password] in the request")
+            } else {
+                ValidationResult.Valid
+            }
+        }
+        validate<CustomerRegisterCommand>() { command ->
+            if (command.username.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [username] in the request")
+            } else if(command.password.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [password] in the request")
+            } else if(command.phoneNumber.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [phoneNumber] in the request")
+            } else if(command.email.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [email] in the request")
             } else {
                 ValidationResult.Valid
             }

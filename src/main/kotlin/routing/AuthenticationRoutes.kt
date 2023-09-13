@@ -4,8 +4,10 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import commands.AdminLogInCommand
 import commands.CustomerLogInCommand
+import commands.CustomerRegisterCommand
 import commands.SellerLogInCommand
 import dtos.response.ResponseDTO
+import dtos.users.CustomerDTO
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -46,6 +48,25 @@ fun Route.authenticationRoutes() {
                     }
                     .onFailure { throw it }
 
+            }
+            post("register") {
+                val command = call.receive<CustomerRegisterCommand>()
+                userService.registerCustomer(command)
+                    .onSuccess {
+                        call.respond(
+                            ResponseDTO(
+                                data = CustomerDTO(
+                                    id = it.id,
+                                    username = it.username,
+                                    email = it.email,
+                                    phoneNumber = it.phoneNumber,
+                                    displayName = it.displayName,
+                                    affiliateCode = it.affiliateCode
+                                )
+                            )
+                        )
+                    }
+                    .onFailure { throw it }
             }
         }
 

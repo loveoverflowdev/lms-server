@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 
 enum class UserRole(
-    val rawValue: String,
+    private val rawValue: String,
 ) {
     CUSTOMER("customer"),
     SELLER("seller"),

@@ -1,6 +1,7 @@
 package repositories.user
 
 import database.DatabaseFactory
+import database.schemas.user.UserEntity
 import database.schemas.user.UserRole
 import database.schemas.user.UserSchema
 import database.schemas.user.UserTable
@@ -123,6 +124,32 @@ class UserRepository: IUserRepository {
                 Result.failure(AuthenticationException("Tên đăng nhập hoặc email không tồn tại"))
             }
         }
+    }
+
+    override suspend fun registerCustomer(email: String, phoneNumber: String, username: String, password: String): Result<Customer> {
+        val salt = BCrypt.gensalt(5) // Generate a salt
+        val hashedPassword = BCrypt.hashpw(password, salt)
+        val user = userSchema.create(UserEntity(
+            id = "",
+            affiliateCode = "",
+            email = email,
+            phoneNumber = phoneNumber,
+            username = username,
+            displayName = username,
+            hashedPassword = hashedPassword,
+            role = UserRole.CUSTOMER,
+        ))
+        return Result.success(
+            Customer(
+                id = user.id,
+                affiliateCode = user.affiliateCode,
+                email = user.email,
+                phoneNumber = user.phoneNumber,
+                username = user.username,
+                displayName = user.displayName,
+                hashedPassword = user.hashedPassword,
+            )
+        )
     }
 
     override suspend fun find(predicate: (User) -> Boolean): Result<List<User>> {

@@ -126,7 +126,16 @@ class SellerLogInCommand(
     val password: String?,
 )
 
-class SignUpCommand()
+class CustomerRegisterCommand(
+    @SerializedName(value = "username")
+    val username: String?,
+    @SerializedName(value="email")
+    val email: String?,
+    @SerializedName(value="password")
+    val password: String?,
+    @SerializedName(value="phoneNumber")
+    val phoneNumber: String?
+)
 
 class LogOutCommand()
 
