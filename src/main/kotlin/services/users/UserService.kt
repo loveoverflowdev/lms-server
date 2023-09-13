@@ -16,22 +16,22 @@ class UserService(
 ) : IUserService {
     override suspend fun authenticateAdmin(command: AdminLogInCommand): Result<Admin> {
         return userRepository.authenticateAdmin(
-            username = command.username,
-            password = command.password
+            username = command.username ?: "",
+            password = command.password ?: "",
         )
     }
 
     override suspend fun authenticateSeller(command: SellerLogInCommand): Result<Seller> {
         return userRepository.authenticateSeller(
-            username = command.username,
-            password = command.password
+            username = command.username ?: "",
+            password = command.password ?: "",
         )
     }
 
     override suspend fun authenticateCustomer(command: CustomerLogInCommand): Result<Customer> {
         return userRepository.authenticateCustomer(
-            usernameOrEmail = command.usernameOrEmail,
-            password = command.password
+            usernameOrEmail = command.usernameOrEmail ?: "",
+            password = command.password ?: "",
         )
     }
 }

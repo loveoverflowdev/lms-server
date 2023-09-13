@@ -1,23 +1,38 @@
 package commands
 
+import com.google.gson.annotations.SerializedName
+
 /// Course
 class CreateCourseCommand(
+    @SerializedName(value = "title")
     val title: String?,
+    @SerializedName(value = "coverImage")
     val coverImage: String?,
+    @SerializedName(value = "instructor")
     val instructor: String?,
+    @SerializedName(value = "description")
     val description: String?,
+    @SerializedName(value = "primaryCoins")
     val primaryCoins: Int?,
+    @SerializedName(value = "secondaryCoins")
     val secondaryCoins: Int?,
     val tags: List<String>?,
 )
 
 class UpdateCourseCommand(
+    @SerializedName(value = "id")
     val id: String,
+    @SerializedName(value = "title")
     val title: String?,
+    @SerializedName(value = "coverImage")
     val coverImage: String?,
+    @SerializedName(value = "instructor")
     val instructor: String?,
+    @SerializedName(value = "description")
     val description: String?,
+    @SerializedName(value = "primaryCoins")
     val primaryCoins: Int?,
+    @SerializedName(value = "secondaryCoins")
     val secondaryCoins: Int?,
     val tags: MutableList<String>? = mutableListOf()
 )
@@ -36,20 +51,32 @@ class GetCourseGroupListOnTopCommand()
 class GetCourseGroupListBySearchTextCommand()
 
 class UpdateCourseGroupCommand(
+    @SerializedName(value = "id")
     val id: String,
+    @SerializedName(value = "title")
     val title: String?,
+    @SerializedName(value = "coverImage")
     val coverImage: String?,
+    @SerializedName(value = "description")
     val description: String?,
+    @SerializedName(value = "primaryCoins")
     val primaryCoins: Int?,
+    @SerializedName(value = "secondaryCoins")
     val secondaryCoins: Int?,
 )
 
 class CreateCourseGroupCommand(
+    @SerializedName(value = "id")
     val id: String,
+    @SerializedName(value = "title")
     val title: String?,
+    @SerializedName(value = "coverImage")
     val coverImage: String?,
+    @SerializedName(value = "description")
     val description: String?,
+    @SerializedName(value = "primaryCoins")
     val primaryCoins: Int?,
+    @SerializedName(value = "secondaryCoins")
     val secondaryCoins: Int?
 )
 
@@ -62,7 +89,9 @@ class GetCourseGroupByIdCommand(
 )
 
 class AddCourseToGroupCommand(
+    @SerializedName(value = "id")
     val id: String?,
+    @SerializedName(value = "courseGroupId")
     val courseGroupId: String?
 )
 
@@ -77,18 +106,24 @@ class DeleteCategoryCommand()
 
 /// Authentication
 class CustomerLogInCommand(
-    val usernameOrEmail: String,
-    val password: String,
+    @SerializedName(value = "usernameOrEmail")
+    val usernameOrEmail: String?,
+    @SerializedName(value = "password")
+    val password: String?,
 )
 
 class AdminLogInCommand(
-    val username: String,
-    val password: String,
+    @SerializedName(value = "username")
+    val username: String?,
+    @SerializedName(value = "password")
+    val password: String?,
 )
 
 class SellerLogInCommand(
-    val username: String,
-    val password: String,
+    @SerializedName(value = "username")
+    val username: String?,
+    @SerializedName(value = "password")
+    val password: String?,
 )
 
 class SignUpCommand()

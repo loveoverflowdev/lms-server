@@ -8,10 +8,25 @@ import models.users.Admin
 import models.users.Customer
 import models.users.Seller
 import models.users.base.User
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.mindrot.jbcrypt.BCrypt
 import javax.naming.AuthenticationException
+
+/*
+*
+* fun hashPassword(password: String): String {
+    val salt = "your-salt" // Replace with a secure random salt
+    val bytes = MessageDigest.getInstance("SHA-256").digest("$salt$password".toByteArray())
+    return hex(bytes)
+}
+
+fun verifyPassword(inputPassword: String, storedPasswordHash: String): Boolean {
+    val hashedInputPassword = hashPassword(inputPassword)
+    return hashedInputPassword == storedPasswordHash
+}
+* */
 
 class UserRepository: IUserRepository {
 
@@ -83,8 +98,8 @@ class UserRepository: IUserRepository {
     override suspend fun authenticateCustomer(usernameOrEmail: String, password: String): Result<Customer> {
         return userSchema.dbQuery {
             val queriedUser = UserTable.select {
-                UserTable.username.eq(usernameOrEmail) or UserTable.email.eq(usernameOrEmail)
-                UserTable.role.eq(UserRole.CUSTOMER)
+                (UserTable.username.eq(usernameOrEmail) or UserTable.email.eq(usernameOrEmail))
+                    .and(UserTable.role.eq(UserRole.CUSTOMER))
             }.singleOrNull()
 
             if (queriedUser != null) {
@@ -105,7 +120,7 @@ class UserRepository: IUserRepository {
                     Result.failure(AuthenticationException("Mật khẩu không đúng"))
                 }
             } else {
-                Result.failure(AuthenticationException("Tên đăng nhập không tồn tại"))
+                Result.failure(AuthenticationException("Tên đăng nhập hoặc email không tồn tại"))
             }
         }
     }

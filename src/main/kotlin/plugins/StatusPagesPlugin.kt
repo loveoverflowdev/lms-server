@@ -9,6 +9,7 @@ import io.ktor.server.plugins.requestvalidation.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import java.sql.SQLException
+import javax.naming.AuthenticationException
 
 fun Application.configureStatusPage() {
     install(StatusPages) {
@@ -38,6 +39,18 @@ fun Application.configureStatusPage() {
         }
         exception<SQLException>() { call, error ->
             val httpStatus = HttpStatusCode.InternalServerError
+            call.respond(
+                httpStatus, ResponseDTO(
+                    status = StatusDTO(
+                        httpStatus.value,
+                        message = error.message.toString()
+                    ),
+                    data = null
+                )
+            )
+        }
+        exception<AuthenticationException>() { call, error ->
+            val httpStatus = HttpStatusCode.Unauthorized
             call.respond(
                 httpStatus, ResponseDTO(
                     status = StatusDTO(

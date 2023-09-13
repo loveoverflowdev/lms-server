@@ -1,5 +1,6 @@
 package database.schemas.user
 
+import com.google.gson.annotations.SerializedName
 import database.schemas.base.BaseEntity
 import database.schemas.base.BaseSchema
 import database.schemas.base.BaseTable
@@ -11,10 +12,16 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 
-enum class UserRole(val value: String) {
+enum class UserRole(
+    val rawValue: String,
+) {
     CUSTOMER("customer"),
     SELLER("seller"),
-    ADMIN("admin")
+    ADMIN("admin");
+
+    override fun toString(): String {
+        return rawValue
+    }
 }
 
 data class UserEntity(
@@ -68,7 +75,7 @@ object UserTable: BaseTable("user") {
     val email = varchar("email", length = 255)
     val phoneNumber = varchar("phone_number", length = 255)
     val hashedPassword = varchar("hashed_password", length = 255)
-    val role = enumeration<UserRole>("role")
+    val role = enumerationByName<UserRole>("role", length = 25)
     val displayName = varchar("display_name", length = 255)
     val affiliateCode = varchar("affiliate_code", length = 255)
 
@@ -78,13 +85,6 @@ object UserTable: BaseTable("user") {
 class UserSchema(
     database: Database,
 ) : BaseSchema<UserTable, UserEntity>(database) {
-
-    suspend fun authenticateUser(username: String, password: String, role: UserRole): UserEntity? = dbQuery {
-        val hashedPassword =
-        UserTable.select {
-            UserTable.username.eq(username)
-        }
-    }
 
     override suspend fun create(entity: UserEntity)
     : UserEntity = dbQuery {

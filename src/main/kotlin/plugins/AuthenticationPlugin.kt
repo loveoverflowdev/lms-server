@@ -2,11 +2,10 @@ package plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import io.ktor.server.response.*
+import javax.naming.AuthenticationException
 
 fun Application.configureAuthentication() {
     val myRealm = environment.config.property("jwt.realm").getString()
@@ -14,10 +13,6 @@ fun Application.configureAuthentication() {
     val issuer = environment.config.property("jwt.issuer").getString()
     val audience = environment.config.property("jwt.audience").getString()
     install(Authentication) {
-        jwt {
-            // Configure jwt authentication
-        }
-
         jwt("auth-jwt") {
             realm = myRealm
             verifier(
@@ -36,7 +31,7 @@ fun Application.configureAuthentication() {
             }
 
             challenge { defaultScheme, realm ->
-                call.respond(HttpStatusCode.Unauthorized, "Token is not valid or has expired $realm")
+                throw AuthenticationException("Token is not valid or has expired")
             }
         }
     }
