@@ -1,10 +1,7 @@
 package repositories.user
 
 import database.DatabaseFactory
-import database.schemas.user.UserEntity
-import database.schemas.user.UserRole
-import database.schemas.user.UserSchema
-import database.schemas.user.UserTable
+import database.schemas.user.*
 import models.users.Admin
 import models.users.Customer
 import models.users.Seller

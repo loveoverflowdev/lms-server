@@ -1,8 +1,21 @@
 package repositories.cart;
 
+import database.DatabaseFactory
+import database.schemas.cart.CartSchema
+import database.schemas.course.CourseSchema
 import models.products.base.Product
 
 class CartRepository: ICartRepository {
+
+    private val cartSchema: CartSchema = CartSchema(
+        database = DatabaseFactory.databaseShared
+    )
+
+//    suspend fun getProductListInCustomerCart(customerId: String)
+//    : Result<List<Product>> {
+//
+//    }
+
     override suspend fun getAll(): Result<List<Product>> {
         TODO("Not yet implemented")
     }
@@ -26,5 +39,4 @@ class CartRepository: ICartRepository {
     override suspend fun update(id: String, model: Product): Result<Product> {
         TODO("Not yet implemented")
     }
-
 }
