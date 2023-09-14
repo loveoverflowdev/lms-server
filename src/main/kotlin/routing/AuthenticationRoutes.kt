@@ -7,6 +7,7 @@ import commands.CustomerLogInCommand
 import commands.CustomerRegisterCommand
 import commands.SellerLogInCommand
 import dtos.response.ResponseDTO
+import dtos.response.TokensDTO
 import dtos.users.CustomerDTO
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -26,7 +27,6 @@ fun Route.authenticationRoutes() {
     val secret = environment?.config?.property("jwt.secret")?.getString()
     val issuer = environment?.config?.property("jwt.issuer")?.getString()
     val audience = environment?.config?.property("jwt.audience")?.getString()
-    val myRealm = environment?.config?.property("jwt.realm")?.getString()
     route("/authentication") {
         route("customer") {
             post("login") {
@@ -37,18 +37,22 @@ fun Route.authenticationRoutes() {
                             .withAudience(audience)
                             .withIssuer(issuer)
                             .withClaim("usernameOrEmail", command.usernameOrEmail)
-                            .withExpiresAt(Date(System.currentTimeMillis() + 60000))
+                            .withExpiresAt(Date(System.currentTimeMillis() + 108_000))
                             .sign(Algorithm.HMAC256(secret))
 
                         call.respond(
                             ResponseDTO(
-                                data = hashMapOf("token" to token)
+                                data = CustomerDTO.of(it),
+                                tokens = TokensDTO(
+                                    accessToken = token,
+                                    refreshToken = null,
+                                )
                             )
                         )
                     }
                     .onFailure { throw it }
-
             }
+
             post("register") {
                 val command = call.receive<CustomerRegisterCommand>()
                 userService.registerCustomer(command)

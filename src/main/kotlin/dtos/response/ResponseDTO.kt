@@ -15,16 +15,21 @@ class ResponseDTO<T>(
     val status: StatusDTO = StatusDTO(
         code = 200,
     ),
+
+    @SerializedName(value = "tokens")
+    val tokens: TokensDTO? = null
 ) {
     fun copy(
         data: T? = this.data,
         meta: MetaDTO? = null,
-        status: StatusDTO? = null
+        status: StatusDTO? = null,
+        tokens: TokensDTO? = null,
     ): ResponseDTO<T> {
         return ResponseDTO(
             data ?: this.data,
             meta ?: this.meta,
-            status ?: this.status
+            status ?: this.status,
+            tokens ?: this.tokens
         )
     }
 }
@@ -40,4 +45,12 @@ class StatusDTO(
 class MetaDTO(
     @SerializedName(value = "timestamp")
     val timestamp: String,
+)
+
+class TokensDTO(
+    @SerializedName(value = "accessToken")
+    val accessToken: String?,
+
+    @SerializedName(value = "refreshToken")
+    val refreshToken: String?,
 )
