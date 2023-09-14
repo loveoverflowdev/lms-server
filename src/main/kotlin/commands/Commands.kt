@@ -137,6 +137,28 @@ class CustomerRegisterCommand(
     val phoneNumber: String?
 )
 
+class GetCourseListInCustomerCartCommand(
+    val customerId: String,
+)
+
+class GetCourseGroupListInCustomerCartCommand(
+    val customerId: String,
+)
+
+class AddCourseToCustomerCartCommand(
+    val courseId: String,
+    val customerId: String
+)
+
+class AddCourseGroupToCustomerCartCommand(
+    val courseGroupId: String,
+    val customerGroupId: String,
+)
+
+class AdminGrantCoinsToCustomerCommand(
+
+)
+
 class LogOutCommand()
 
 /// User

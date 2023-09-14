@@ -17,13 +17,13 @@ import repositories.user.IUserRepository
 import java.util.*
 
 import repositories.user.UserRepository
-import services.users.IUserService
-import services.users.UserService
+import services.auth.IAuthService
+import services.auth.AuthService
 
 val userRepository: IUserRepository = UserRepository()
-val userService: IUserService = UserService(userRepository)
+val userService: IAuthService = AuthService(userRepository)
 
-fun Route.authenticationRoutes() {
+fun Route.authRoutes() {
     val secret = environment?.config?.property("jwt.secret")?.getString()
     val issuer = environment?.config?.property("jwt.issuer")?.getString()
     val audience = environment?.config?.property("jwt.audience")?.getString()

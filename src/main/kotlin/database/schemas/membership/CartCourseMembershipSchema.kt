@@ -8,6 +8,8 @@ import database.schemas.course.CourseEntity
 import database.schemas.course.CourseTable
 import models.base.Model
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import java.sql.SQLIntegrityConstraintViolationException
 
 data class CartCourseMembershipEntity(
     override val id: String,
@@ -30,7 +32,7 @@ class CartCourseMembershipSchema(
     database: Database
 ) : BaseSchema<CartCourseMembershipTable, CartCourseMembershipEntity>(database) {
 
-    suspend fun getCourseListInCart(cartId: String) : List<CourseEntity> = dbQuery { {CartCourseMembershipTable.courseId}
+    suspend fun getCourseListInCart(cartId: String) : List<CourseEntity> = dbQuery {
         CourseTable.innerJoin(
             CartCourseMembershipTable,
             {CourseTable.id},
@@ -50,12 +52,29 @@ class CartCourseMembershipSchema(
         }
     }
 
-    suspend fun addCourseToCard(cartId: String, courseId: String) {
-        create(CartCourseMembershipEntity(
-            id = "",
-            cartId = cartId,
-            courseId = courseId,
-        ))
+    suspend fun addCourseToCart(cartId: String, courseId: String) {
+        val membership = CartCourseMembershipTable.select {
+            CartCourseMembershipTable.cartId.eq(cartId)
+                .and(CartCourseMembershipTable.courseId.eq(courseId))
+        }.singleOrNull()
+
+        membership?.apply {
+            create(CartCourseMembershipEntity(
+                id = "",
+                cartId = cartId,
+                courseId = courseId,
+            ))
+        } ?: throw SQLIntegrityConstraintViolationException("this course did exist in the cart")
+    }
+
+    suspend fun removeCourseFromCart(cartId: String, courseId: String) {
+        val deletedRowCount = CartCourseMembershipTable.deleteWhere {
+            CartCourseMembershipTable.cartId.eq(cartId)
+                .and(CartCourseMembershipTable.courseId.eq(courseId))
+        }
+        if (deletedRowCount <= 0) {
+            throw SQLIntegrityConstraintViolationException("this course did not exist in the cart")
+        }
     }
 
     override suspend fun create(entity: CartCourseMembershipEntity)
