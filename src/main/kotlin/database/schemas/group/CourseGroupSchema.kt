@@ -53,6 +53,21 @@ object CourseGroupTable: BaseTable("course_group") {
 class CourseGroupSchema(
     database: Database
 ) : BaseSchema<CourseGroupTable, CourseGroupEntity>(database) {
+    suspend fun selectAll(): List<CourseGroup> = dbQuery {
+        CourseGroupTable
+            .selectAll()
+            .map {
+                CourseGroup(
+                    id = it[CourseGroupTable.id].value,
+                    title = it[CourseGroupTable.title],
+                    coverImage = it[CourseGroupTable.coverImage],
+                    primaryCoins = it[CourseGroupTable.primaryCoins],
+                    secondaryCoins = it[CourseGroupTable.secondaryCoins],
+                    description = it[CourseGroupTable.description],
+                )
+            }
+    }
+
     override suspend fun create(entity: CourseGroupEntity)
     : CourseGroupEntity = dbQuery {
         CourseGroupTable.insert {

@@ -6,7 +6,10 @@ import database.schemas.base.BaseTable
 import database.schemas.user.UserTable
 import models.cart.Cart
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
+import java.sql.SQLException
 
 data class CartEntity(
     override val id: String,
@@ -38,6 +41,17 @@ object CartTable: BaseTable("cart") {
 class CartSchema(
     database: Database
 ) : BaseSchema<CartTable, CartEntity>(database) {
+
+    suspend fun getCartIdByUser(userId: String): String = dbQuery {
+        CartTable.select {
+            CartTable.userId.eq(userId)
+        }
+            .singleOrNull()
+            ?.run {
+                this[CartTable.id].value
+            } ?: throw SQLException("Not found cart id by user id: $userId")
+    }
+
     override suspend fun create(entity: CartEntity): CartEntity = dbQuery {
         CartTable.insert {
             it[userId] = entity.userId

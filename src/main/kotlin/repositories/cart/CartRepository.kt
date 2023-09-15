@@ -23,14 +23,8 @@ class CartRepository: ICartRepository {
         database = DatabaseFactory.databaseShared
     )
 
-    override suspend fun getCartIdByUser(userId: String): String? {
-        return cartSchema.dbQuery {
-            CartTable.select {
-                CartTable.userId.eq(userId)
-            }.singleOrNull()
-        }?.run {
-            this[CartTable.id].value
-        }
+    override suspend fun getCartIdByUser(userId: String): String {
+        return cartSchema.getCartIdByUser(userId)
     }
 
     override suspend fun getCourseListInCart(cartId: String): List<Course> {

@@ -8,9 +8,9 @@ import models.users.Admin
 import models.users.Customer
 import models.users.Seller
 import models.users.base.User
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.*
+import org.mindrot.jbcrypt.BCrypt
+import javax.naming.AuthenticationException
 
 enum class UserRole(
     private val rawValue: String,
@@ -85,6 +85,114 @@ object UserTable: BaseTable("user") {
 class UserSchema(
     database: Database,
 ) : BaseSchema<UserTable, UserEntity>(database) {
+    private fun isPasswordValid(inputPassword: String, storedHashedPassword: String): Boolean {
+
+        return BCrypt.checkpw(inputPassword, storedHashedPassword)
+    }
+    suspend fun authenticateAdmin(username: String, password: String)
+    : Admin = dbQuery {
+            val queriedUser = UserTable.select {
+                UserTable.username.eq(username)
+                UserTable.role.eq(UserRole.ADMIN)
+            }.singleOrNull()
+
+            if (queriedUser != null) {
+                val storedHashedPassword = queriedUser[UserTable.hashedPassword]
+                if (isPasswordValid(password, storedHashedPassword)) {
+                    Admin(
+                        id = queriedUser[UserTable.id].value,
+                        displayName = queriedUser[UserTable.displayName],
+                        username = queriedUser[UserTable.username],
+                        hashedPassword = ""
+                    )
+                } else {
+                    throw AuthenticationException("Mật khẩu không đúng")
+                }
+            } else {
+                throw AuthenticationException("Tên đăng nhập không tồn tại")
+            }
+    }
+
+    suspend fun authenticateSeller(username: String, password: String)
+    : Seller = dbQuery {
+        val queriedUser = UserTable.select {
+            UserTable.username.eq(username)
+            UserTable.role.eq(UserRole.SELLER)
+        }.singleOrNull()
+
+        if (queriedUser != null) {
+            val storedHashedPassword = queriedUser[UserTable.hashedPassword]
+            if (isPasswordValid(password, storedHashedPassword)) {
+                Seller(
+                    id = queriedUser[UserTable.id].value,
+                    displayName = queriedUser[UserTable.displayName],
+                    username = queriedUser[UserTable.username],
+                    email = queriedUser[UserTable.email],
+                    phoneNumber = queriedUser[UserTable.phoneNumber],
+                    affiliateCode = queriedUser[UserTable.affiliateCode],
+                    hashedPassword = ""
+                )
+            } else {
+                throw AuthenticationException("Mật khẩu không đúng")
+            }
+        } else {
+            throw AuthenticationException("Tên đăng nhập không tồn tại")
+        }
+    }
+
+
+    suspend fun authenticateCustomer(usernameOrEmail: String, password: String)
+    : Customer = dbQuery {
+        val queriedUser = UserTable.select {
+            (UserTable.username.eq(usernameOrEmail) or UserTable.email.eq(usernameOrEmail))
+                .and(UserTable.role.eq(UserRole.CUSTOMER))
+        }.singleOrNull()
+
+        if (queriedUser != null) {
+            val storedHashedPassword = queriedUser[UserTable.hashedPassword]
+            if (isPasswordValid(password, storedHashedPassword)) {
+                Customer(
+                    id = queriedUser[UserTable.id].value,
+                    displayName = queriedUser[UserTable.displayName],
+                    username = queriedUser[UserTable.username],
+                    email = queriedUser[UserTable.email],
+                    phoneNumber = queriedUser[UserTable.phoneNumber],
+                    affiliateCode = queriedUser[UserTable.affiliateCode],
+                    hashedPassword = ""
+                )
+            } else {
+                throw AuthenticationException("Mật khẩu không đúng")
+            }
+        } else {
+            throw AuthenticationException("Tên đăng nhập hoặc email không tồn tại")
+        }
+    }
+
+    suspend fun registerCustomer(email: String, phoneNumber: String, username: String, password: String): Customer {
+        val salt = BCrypt.gensalt(5) // Generate a salt
+        val hashedPassword = BCrypt.hashpw(password, salt)
+        val user = create(UserEntity(
+            id = "",
+            affiliateCode = "",
+            email = email,
+            phoneNumber = phoneNumber,
+            username = username,
+            displayName = username,
+            hashedPassword = hashedPassword,
+            role = UserRole.CUSTOMER,
+        ))
+        return Customer(
+            id = user.id,
+            affiliateCode = user.affiliateCode,
+            email = user.email,
+            phoneNumber = user.phoneNumber,
+            username = user.username,
+            displayName = user.displayName,
+            hashedPassword = user.hashedPassword,
+        )
+    }
+
+
 
     override suspend fun create(entity: UserEntity)
     : UserEntity = dbQuery {

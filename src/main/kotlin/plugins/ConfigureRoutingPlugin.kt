@@ -7,9 +7,9 @@ import routing.*
 fun Application.configureRouting() {
     install(Routing) {
         route("/api/v1") {
+            authRoutes()
             courseRoutes()
             courseGroupRoutes()
-            authRoutes()
             cartRoutes()
         }
     }

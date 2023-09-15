@@ -3,6 +3,7 @@ package database.schemas.course
 import database.schemas.base.BaseEntity
 import database.schemas.base.BaseSchema
 import database.schemas.base.BaseTable
+import database.schemas.group.CourseGroupTable
 import models.products.course.Course
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -57,6 +58,22 @@ object CourseTable: BaseTable("course") {
 class CourseSchema(
     database: Database
 ) : BaseSchema<CourseTable, CourseEntity>(database) {
+    suspend fun selectAll(): List<Course> = dbQuery {
+        CourseGroupTable
+            .selectAll()
+            .map {
+                Course(
+                    id = it[CourseTable.id].value,
+                    title = it[CourseTable.title],
+                    coverImage = it[CourseTable.coverImage],
+                    primaryCoins = it[CourseTable.primaryCoins],
+                    secondaryCoins = it[CourseTable.secondaryCoins],
+                    description = it[CourseTable.description],
+                    instructor = it[CourseTable.instructor],
+                )
+            }
+    }
+
     override suspend fun create(entity: CourseEntity)
     : CourseEntity = dbQuery {
          CourseTable.insert {

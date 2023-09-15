@@ -17,7 +17,9 @@ class AuthService(
         return userRepository.authenticateCustomer(
             usernameOrEmail = command.usernameOrEmail ?: "",
             password = command.password ?: "",
-        )
+        ).run {
+            Result.success(this)
+        }
     }
 
     override suspend fun registerCustomer(command: CustomerRegisterCommand): Result<Customer> {
@@ -26,20 +28,26 @@ class AuthService(
             phoneNumber = command.phoneNumber ?: "",
             username = command.username ?: "",
             password = command.password ?: "",
-        )
+        ).run {
+            Result.success(this)
+        }
     }
 
     override suspend fun authenticateAdmin(command: AdminLogInCommand): Result<Admin> {
         return userRepository.authenticateAdmin(
             username = command.username ?: "",
             password = command.password ?: "",
-        )
+        ).run {
+            Result.success(this)
+        }
     }
 
     override suspend fun authenticateSeller(command: SellerLogInCommand): Result<Seller> {
         return userRepository.authenticateSeller(
             username = command.username ?: "",
             password = command.password ?: "",
-        )
+        ).run {
+            Result.success(this)
+        }
     }
 }

@@ -24,7 +24,7 @@ val customerCartService: ICustomerCartService = CustomerCartService(cartReposito
 
 fun Route.cartRoutes() {
     route("/customer") {
-        authenticate("cart") {
+        authenticate("auth-jwt") {
             get("course-list") {
                 val principal = call.principal<JWTPrincipal>()
                 val customerId = principal!!.payload.getClaim("id").asString()
@@ -67,18 +67,14 @@ fun Route.cartRoutes() {
                     customerId = customerId
                 )
                 customerCartService.addCourseToCart(command)
-                    .onSuccess {
-                        call.respond(
-                            ResponseDTO(
-                                status = StatusDTO(
-                                    message = it,
-                                    code = 200,
-                                ),
-                                data = null,
-                            )
-                        )
-                    }
-                    .onFailure { throw it }
+                call.respond(
+                    ResponseDTO(
+                        status = StatusDTO(
+                            code = 200,
+                        ),
+                        data = null,
+                    )
+                )
             }
 
             post("course-group") {
@@ -89,18 +85,14 @@ fun Route.cartRoutes() {
                     customerId = customerId
                 )
                 customerCartService.addCourseGroupToCart(command)
-                    .onSuccess {
-                        call.respond(
-                            ResponseDTO(
-                                status = StatusDTO(
-                                    message = it,
-                                    code = 200,
-                                ),
-                                data = null,
-                            )
-                        )
-                    }
-                    .onFailure { throw it }
+                call.respond(
+                    ResponseDTO(
+                        status = StatusDTO(
+                            code = 200,
+                        ),
+                        data = null,
+                    )
+                )
             }
         }
     }

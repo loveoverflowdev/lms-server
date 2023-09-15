@@ -9,8 +9,8 @@ interface ICustomerCartService {
     : Result<List<Course>>
     suspend fun getCourseGroupListInCart(command: GetCourseGroupListInCustomerCartCommand)
     : Result<List<CourseGroup>>
-    suspend fun addCourseToCart(command: AddCourseToCustomerCartCommand): Result<String>
-    suspend fun addCourseGroupToCart(command: AddCourseGroupToCustomerCartCommand): Result<String>
-    suspend fun removeCourseFromCart(command: RemoveCourseFromCartCommand): Result<String>
-    suspend fun removeCourseGroupFromCart(command: RemoveCourseGroupFromCartCommand): Result<String>
+    suspend fun addCourseToCart(command: AddCourseToCustomerCartCommand)
+    suspend fun addCourseGroupToCart(command: AddCourseGroupToCustomerCartCommand)
+    suspend fun removeCourseFromCart(command: RemoveCourseFromCartCommand)
+    suspend fun removeCourseGroupFromCart(command: RemoveCourseGroupFromCartCommand)
 }

@@ -6,7 +6,6 @@ import database.schemas.group.CourseGroupSchema
 import database.schemas.membership.CourseGroupMembershipEntity
 import database.schemas.membership.CourseGroupMembershipSchema
 import models.products.group.CourseGroup
-import java.sql.SQLException
 
 class CourseGroupRepository: ICourseGroupRepository {
 
@@ -26,80 +25,32 @@ class CourseGroupRepository: ICourseGroupRepository {
         ))
     }
 
-    override  suspend fun removeCourseFromGroup(courseId: String, courseGroupId: String) {
+    override suspend fun removeCourseFromGroup(courseId: String, courseGroupId: String) {
         courseGroupMembershipSchema.delete(
             courseId = courseId,
             courseGroupId = courseGroupId,
         )
     }
 
-    override suspend fun getAll(): Result<List<CourseGroup>> {
-        return Result.success(mutableListOf(
-            CourseGroup(
-                id = "sùydgsudjfsdjbsdjfbsdjfnsdf",
-                title = "Learn Python like a Professional",
-                coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
-                description = "Development",
-                primaryCoins = 0,
-                secondaryCoins = 0
-            ),
-            CourseGroup(
-                id = "sùydgsudjfsdjbsdjfbsdjfnsdf",
-                title = "Learn Python like a Professional",
-                coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
-                description = "Development",
-                primaryCoins = 0,
-                secondaryCoins = 0
-            ),
-            CourseGroup(
-                id = "sùydgsudjfsdjbsdjfbsdjfnsdf",
-                title = "Learn Python like a Professional",
-                coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
-                description = "Development",
-                primaryCoins = 0,
-                secondaryCoins = 0
-            ),
-        ))
+    override suspend fun getAll(): List<CourseGroup> {
+        return courseGroupSchema.selectAll()
     }
 
-    override suspend fun findById(id: String): Result<CourseGroup?> {
-        return Result.success(
-            CourseGroup(
-                id = "sùydgsudjfsdjbsdjfbsdjfnsdf",
-                title = "Learn Python like a Professional",
-                coverImage = "https://i3.ytimg.com/vi/XKHEtdqhLK8/maxresdefault.jpg",
-                description = "Development",
-                primaryCoins = 0,
-                secondaryCoins = 0
-            )
-        )
+    override suspend fun findById(id: String): CourseGroup? {
+        TODO()
     }
 
-    override suspend fun find(predicate: (CourseGroup) -> Boolean): Result<List<CourseGroup>> {
-        TODO("Not yet implemented")
+    override suspend fun create(model: CourseGroup): CourseGroup {
+        return courseGroupSchema.create(CourseGroupEntity.of(model)).toModel()
     }
 
-    override suspend fun create(model: CourseGroup): Result<CourseGroup> {
-        return courseGroupSchema.create(CourseGroupEntity.of(model))
-            .run {
-                Result.success(toModel())
-            }
+    override suspend fun delete(id: String): CourseGroup? {
+        return courseGroupSchema.delete(id)?.toModel()
     }
 
-    override suspend fun delete(id: String): Result<CourseGroup> {
-        return courseGroupSchema.delete(id)
-            ?.run {
-                Result.success(toModel())
-            }
-            ?: Result.failure(SQLException("Error while update course in database"))
-    }
-
-    override suspend fun update(id: String, model: CourseGroup): Result<CourseGroup> {
+    override suspend fun update(id: String, model: CourseGroup): CourseGroup? {
         return courseGroupSchema
             .update(id, CourseGroupEntity.of(model))
-            ?.run {
-                Result.success(toModel())
-            }
-            ?: Result.failure(SQLException("Error while update course in database"))
+            ?.toModel()
     }
 }
