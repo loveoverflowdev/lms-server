@@ -4,64 +4,64 @@
 - **Customer Register:**
   `POST: /api/v1/authentication/customer/register`
     - **Parameter**:
-      ```json
+      ```json5
       {
-          "username": <String, required>,
-          "phoneNumber": <String, required>,
-          "password": <String, required>,
-          "email": <String, required>,
+          "username": "", // string & required
+          "phoneNumber": "", // string & required,
+          "password": "", // string & required
+          "email": "" // string & required
       }
       ```
     - **Response**:
-      ```json
+      ```json5
       {
           "data": {
-              "id": <String>,
-              "username": <String>,
-              "displayName": <String>,
-              "email": <String>,
-              "phoneNumber": <String>,
-              "affilicateCode": <String>
+              "id": "", // string & required
+              "username": "", // string & required
+              "displayName": "", // string & required
+              "email": "", // string & required
+              "phoneNumber": "", // string & required
+              "affilicateCode": "" // string & required
           },
           "meta": {
-              "timestamp": <Int>
+              "timestamp": 0  // integer & required
           },
           "status": {
-              "code": <Int>,
-              "message": <String>
+              "code": 200, // integer & required
+              "message": "" // string & required
           }
       }
       ```
 - **Customer Login:**
   `POST: /api/v1/authentication/customer/login `
     - **Parameter**:
-      ```json
+      ```json5
       {
-          "usernameOrEmail": <String, required>,
-          "password": <String, required>
+          "usernameOrEmail": "", // string & required
+          "password": "" // string & required
       }
       ```
     - **Response:**
-      ```json
+      ```json5
       {
           "data": {
-              "id": <String>,
-              "username": <String>,
-              "displayName": <String>,
-              "email": <String>,
-              "phoneNumber": <String>,
-              "affilicateCode": <String>
+              "id": "", // string & required
+              "username": "", // string & required
+              "displayName": "", // string & required
+              "email": "", // string & required
+              "phoneNumber": "", // string & required
+              "affilicateCode": "" // string & required
           },
           "meta": {
-              "timestamp": <Int>
+              "timestamp": 0 // integer & required
           },
           "status": {
-              "code": <Int>,
-              "message": <String>
+              "code": 200, // integer & required
+              "message": "", // string & required
           },
           "tokens": {
-              "accessToken": <String>
-              "refreshToken": <String>
+              "accessToken": "", // string & required
+              "refreshToken": "" // string & required
           }
       }
       ```
@@ -70,25 +70,25 @@
 - **Top Trending Courses:**
   `GET: /api/v1/courses/top`
     - **Response:**
-      ```json
+      ```json5
       {
           "data": [
               {
-                  "id": <String>,
-                  "title": <String>,
-                  "instructor": <String>,
-                  "coverImage": <String>,
-                  "description": <String>,
-                  "primaryCoins": <Int>,
-                  "secondaryCoins": <Int>
+                  "id": "", // string & required
+                  "title": "", // string & required
+                  "instructor": "", // string & required
+                  "coverImage": "", // string & required
+                  "description": "", // string & required
+                  "primaryCoins": 0, // integer & required
+                  "secondaryCoins": 0 // integer & required
               }
           ],
           "meta": {
-              "timestamp": <Int>
+              "timestamp": 0 // integer & required
           },
           "status": {
-              "code": <Int>,
-              "message": <String>
+              "code": 200, // integer & required
+              "message": "" // string & required
           }
       }
       ```
@@ -99,25 +99,25 @@
     - **Authorization**:
       `Brearer Token: <String>`
     - **Response**:
-      ```json
+      ```json5
       {
           "data": [
               {
-                  "id": <String>,
-                  "title": <String>,
-                  "instructor": <String>,
-                  "coverImage": <String>,
-                  "description": <String>,
-                  "primaryCoins": <Int>,
-                  "secondaryCoins": <Int>
+                  "id": "", // string & required
+                  "title": "", // string & required
+                  "instructor": "", // string & required
+                  "coverImage": "", // string & required
+                  "description": "", // string & required
+                  "primaryCoins": 0, // integer & required
+                  "secondaryCoins": 0 // integer & required
               }
           ],
           "meta": {
-              "timestamp": <Int>
+              "timestamp": 0 // integer & required
           },
           "status": {
-              "code": <Int>,
-              "message": <String>
+              "code": 200, // integer & required
+              "message": "" // string & required
           }
       }
       ```
