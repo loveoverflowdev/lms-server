@@ -145,14 +145,24 @@ class GetCourseGroupListInCustomerCartCommand(
     val customerId: String,
 )
 
-class AddCourseToCustomerCartCommand(
-    val courseId: String,
+data class AddCourseToCustomerCartCommand(
+    val courseId: String?,
     val customerId: String
 )
 
-class AddCourseGroupToCustomerCartCommand(
-    val courseGroupId: String,
-    val customerGroupId: String,
+data class AddCourseGroupToCustomerCartCommand(
+    val courseGroupId: String?,
+    val customerId: String,
+)
+
+data class RemoveCourseFromCartCommand(
+    val courseId: String?,
+    val customerId: String,
+)
+
+data class RemoveCourseGroupFromCartCommand(
+    val courseGroupId: String?,
+    val customerId: String,
 )
 
 class AdminGrantCoinsToCustomerCommand(

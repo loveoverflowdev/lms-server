@@ -2,13 +2,19 @@ package repositories.cart;
 
 import database.DatabaseFactory
 import database.schemas.cart.CartSchema
+import database.schemas.cart.CartTable
 import database.schemas.membership.CartCourseGroupMembershipSchema
 import database.schemas.membership.CartCourseMembershipSchema
-import models.products.base.Product
 import models.products.course.Course
 import models.products.group.CourseGroup
+import org.jetbrains.exposed.sql.select
 
 class CartRepository: ICartRepository {
+
+    private val cartSchema: CartSchema = CartSchema(
+        database = DatabaseFactory.databaseShared
+    )
+
     private val cartCourseMembership: CartCourseMembershipSchema = CartCourseMembershipSchema(
         database = DatabaseFactory.databaseShared
     )
@@ -17,8 +23,18 @@ class CartRepository: ICartRepository {
         database = DatabaseFactory.databaseShared
     )
 
-    override suspend fun getCourseListInCart(cartId: String): Result<List<Course>> {
-        val courseList = cartCourseMembership
+    override suspend fun getCartIdByUser(userId: String): String? {
+        return cartSchema.dbQuery {
+            CartTable.select {
+                CartTable.userId.eq(userId)
+            }.singleOrNull()
+        }?.run {
+            this[CartTable.id].value
+        }
+    }
+
+    override suspend fun getCourseListInCart(cartId: String): List<Course> {
+        return cartCourseMembership
             .getCourseListInCart(cartId)
             .map {
                 Course(
@@ -31,7 +47,6 @@ class CartRepository: ICartRepository {
                     instructor = it.instructor,
                 )
             }
-        return Result.success(courseList)
     }
 
     override suspend fun addCourseToCart(cartId: String, courseId: String) {
@@ -48,8 +63,8 @@ class CartRepository: ICartRepository {
         )
     }
 
-    override suspend fun getCourseGroupListInCart(cartId: String): Result<List<CourseGroup>> {
-        val courseGroupList = cartCourseGroupMembershipSchema
+    override suspend fun getCourseGroupListInCart(cartId: String): List<CourseGroup> {
+        return cartCourseGroupMembershipSchema
             .getCourseGroupListInCart(cartId)
             .map {
                 CourseGroup(
@@ -61,7 +76,6 @@ class CartRepository: ICartRepository {
                     description = it.description,
                 )
             }
-        return Result.success(courseGroupList)
     }
 
     override suspend fun addCourseGroupToCart(cartId: String, courseGroupId: String) {
@@ -76,30 +90,5 @@ class CartRepository: ICartRepository {
             cartId = cartId,
             courseGroupId = courseGroupId,
         )
-    }
-
-
-    override suspend fun getAll(): Result<List<Product>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun findById(id: String): Result<Product?> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun find(predicate: (Product) -> Boolean): Result<List<Product>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun create(model: Product): Result<Product> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun delete(id: String): Result<Product> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun update(id: String, model: Product): Result<Product> {
-        TODO("Not yet implemented")
     }
 }

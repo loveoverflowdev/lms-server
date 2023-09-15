@@ -12,19 +12,6 @@ import org.jetbrains.exposed.sql.select
 import org.mindrot.jbcrypt.BCrypt
 import javax.naming.AuthenticationException
 
-/*
-*
-* fun hashPassword(password: String): String {
-    val salt = "your-salt" // Replace with a secure random salt
-    val bytes = MessageDigest.getInstance("SHA-256").digest("$salt$password".toByteArray())
-    return hex(bytes)
-}
-
-fun verifyPassword(inputPassword: String, storedPasswordHash: String): Boolean {
-    val hashedInputPassword = hashPassword(inputPassword)
-    return hashedInputPassword == storedPasswordHash
-}
-* */
 
 class UserRepository: IUserRepository {
 
@@ -148,29 +135,4 @@ class UserRepository: IUserRepository {
             )
         )
     }
-
-    override suspend fun find(predicate: (User) -> Boolean): Result<List<User>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getAll(): Result<List<User>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun findById(id: String): Result<User?> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun create(model: User): Result<User> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun delete(id: String): Result<User> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun update(id: String, model: User): Result<User> {
-        TODO("Not yet implemented")
-    }
-
 }

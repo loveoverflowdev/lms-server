@@ -2,16 +2,15 @@ package plugins
 
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
-import routing.authenticationRoutes
-import routing.courseGroupRoutes
-import routing.courseRoutes
+import routing.*
 
 fun Application.configureRouting() {
     install(Routing) {
         route("/api/v1") {
             courseRoutes()
             courseGroupRoutes()
-            authenticationRoutes()
+            authRoutes()
+            cartRoutes()
         }
     }
 }

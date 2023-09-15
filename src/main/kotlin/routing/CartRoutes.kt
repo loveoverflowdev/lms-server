@@ -1,18 +1,106 @@
 package routing
 
+import commands.AddCourseGroupToCustomerCartCommand
+import commands.AddCourseToCustomerCartCommand
+import commands.GetCourseGroupListInCustomerCartCommand
+import commands.GetCourseListInCustomerCartCommand
+import dtos.products.course.CourseDTO
+import dtos.products.group.CourseGroupDTO
+import dtos.response.ResponseDTO
+import dtos.response.StatusDTO
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import repositories.cart.CartRepository
+import repositories.cart.ICartRepository
+import services.users.customer.CustomerCartService
+import services.users.customer.ICustomerCartService
+
+val cartRepository: ICartRepository = CartRepository()
+val customerCartService: ICustomerCartService = CustomerCartService(cartRepository)
 
 fun Route.cartRoutes() {
     route("/customer") {
-        authenticate("auth-jwt") {
-            get("/hello") {
+        authenticate("cart") {
+            get("course-list") {
                 val principal = call.principal<JWTPrincipal>()
-                val username = principal!!.payload.getClaim("username").asString()
-                val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
-                // call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
+                val customerId = principal!!.payload.getClaim("id").asString()
+                customerCartService.getCourseListInCart(
+                    GetCourseListInCustomerCartCommand(
+                        customerId = customerId
+                    )
+                ).onSuccess {
+                    val courseListDto = it.map { CourseDTO.of(it) }
+                    call.respond(
+                        ResponseDTO(
+                            data = courseListDto
+                        )
+                    )
+                }.onFailure { throw it }
+            }
+
+            get("course-group-list") {
+                val principal = call.principal<JWTPrincipal>()
+                val customerId = principal!!.payload.getClaim("id").asString()
+                customerCartService.getCourseGroupListInCart(
+                    GetCourseGroupListInCustomerCartCommand(
+                        customerId = customerId
+                    )
+                ).onSuccess {
+                    val courseGroupListDto = it.map { CourseGroupDTO.of(it) }
+                    call.respond(
+                        ResponseDTO(
+                            data = courseGroupListDto
+                        )
+                    )
+                }.onFailure { throw it }
+            }
+
+            post("course") {
+                val principal = call.principal<JWTPrincipal>()
+                val customerId = principal!!.payload.getClaim("id").asString()
+
+                val command = call.receive<AddCourseToCustomerCartCommand>().copy(
+                    customerId = customerId
+                )
+                customerCartService.addCourseToCart(command)
+                    .onSuccess {
+                        call.respond(
+                            ResponseDTO(
+                                status = StatusDTO(
+                                    message = it,
+                                    code = 200,
+                                ),
+                                data = null,
+                            )
+                        )
+                    }
+                    .onFailure { throw it }
+            }
+
+            post("course-group") {
+                val principal = call.principal<JWTPrincipal>()
+                val customerId = principal!!.payload.getClaim("id").asString()
+
+                val command = call.receive<AddCourseGroupToCustomerCartCommand>().copy(
+                    customerId = customerId
+                )
+                customerCartService.addCourseGroupToCart(command)
+                    .onSuccess {
+                        call.respond(
+                            ResponseDTO(
+                                status = StatusDTO(
+                                    message = it,
+                                    code = 200,
+                                ),
+                                data = null,
+                            )
+                        )
+                    }
+                    .onFailure { throw it }
             }
         }
     }

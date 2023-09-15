@@ -36,7 +36,7 @@ fun Route.authRoutes() {
                         val token = JWT.create()
                             .withAudience(audience)
                             .withIssuer(issuer)
-                            .withClaim("usernameOrEmail", command.usernameOrEmail)
+                            .withClaim("id", it.id)
                             .withExpiresAt(Date(System.currentTimeMillis() + 108_000))
                             .sign(Algorithm.HMAC256(secret))
 
@@ -82,7 +82,7 @@ fun Route.authRoutes() {
                         val token = JWT.create()
                             .withAudience(audience)
                             .withIssuer(issuer)
-                            .withClaim("username", command.username)
+                            .withClaim("id", it.id)
                             .withExpiresAt(Date(System.currentTimeMillis() + 100000))
                             .sign(Algorithm.HMAC256(secret))
 
@@ -105,7 +105,7 @@ fun Route.authRoutes() {
                         val token = JWT.create()
                             .withAudience(audience)
                             .withIssuer(issuer)
-                            .withClaim("username", command.username)
+                            .withClaim("id", it.id)
                             .withExpiresAt(Date(System.currentTimeMillis() + 100000))
                             .sign(Algorithm.HMAC256(secret))
 

@@ -77,7 +77,6 @@ fun Route.courseGroupRoutes() {
                             data = courseGroupDto
                         )
                     )
-
                 }
                 .onFailure { throw it }
         }

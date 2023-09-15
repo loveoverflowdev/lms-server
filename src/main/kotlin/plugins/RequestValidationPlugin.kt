@@ -59,5 +59,20 @@ fun Application.configureRequestValidation() {
                 ValidationResult.Valid
             }
         }
+
+        validate<AddCourseToCustomerCartCommand>() { command ->
+            if (command.courseId.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [courseId] in the request")
+            } else {
+                ValidationResult.Valid
+            }
+        }
+        validate<AddCourseGroupToCustomerCartCommand>() { command ->
+            if (command.courseGroupId.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [courseGroupId] in the request")
+            } else {
+                ValidationResult.Valid
+            }
+        }
     }
 }
