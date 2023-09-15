@@ -6,7 +6,6 @@ import database.schemas.base.BaseTable
 import database.schemas.user.UserTable
 import models.cart.Cart
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import java.sql.SQLException
@@ -74,5 +73,4 @@ class CartSchema(
     override suspend fun update(id: String, entity: CartEntity): CartEntity? {
         TODO("Not yet implemented")
     }
-
 }

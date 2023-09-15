@@ -10,7 +10,7 @@ fun Application.configureRouting() {
             authRoutes()
             courseRoutes()
             courseGroupRoutes()
-            cartRoutes()
+            customerCartRoutes()
         }
     }
 }

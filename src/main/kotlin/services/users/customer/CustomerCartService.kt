@@ -30,7 +30,7 @@ class CustomerCartService(
         cartRepository
             .getCartIdByUser(command.customerId)
             .let { cartId ->
-                cartRepository.addCourseGroupToCart(cartId, command.courseId ?: "")
+                cartRepository.addCourseToCart(cartId, command.courseId ?: "")
             }
     }
 

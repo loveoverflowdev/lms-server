@@ -22,8 +22,8 @@ import services.users.customer.ICustomerCartService
 val cartRepository: ICartRepository = CartRepository()
 val customerCartService: ICustomerCartService = CustomerCartService(cartRepository)
 
-fun Route.cartRoutes() {
-    route("/customer") {
+fun Route.customerCartRoutes() {
+    route("/customer-cart") {
         authenticate("auth-jwt") {
             get("course-list") {
                 val principal = call.principal<JWTPrincipal>()

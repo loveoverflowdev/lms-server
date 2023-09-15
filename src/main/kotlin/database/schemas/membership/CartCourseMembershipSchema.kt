@@ -52,22 +52,15 @@ class CartCourseMembershipSchema(
         }
     }
 
-    suspend fun addCourseToCart(cartId: String, courseId: String) {
-        val membership = CartCourseMembershipTable.select {
-            CartCourseMembershipTable.cartId.eq(cartId)
-                .and(CartCourseMembershipTable.courseId.eq(courseId))
-        }.singleOrNull()
-
-        membership?.apply {
-            create(CartCourseMembershipEntity(
-                id = "",
-                cartId = cartId,
-                courseId = courseId,
-            ))
-        } ?: throw SQLIntegrityConstraintViolationException("this course did exist in the cart")
+    suspend fun addCourseToCart(cartId: String, courseId: String) = dbQuery {
+        create(CartCourseMembershipEntity(
+            id = "",
+            cartId = cartId,
+            courseId = courseId,
+        ))
     }
 
-    suspend fun removeCourseFromCart(cartId: String, courseId: String) {
+    suspend fun removeCourseFromCart(cartId: String, courseId: String) = dbQuery {
         val deletedRowCount = CartCourseMembershipTable.deleteWhere {
             CartCourseMembershipTable.cartId.eq(cartId)
                 .and(CartCourseMembershipTable.courseId.eq(courseId))
@@ -91,15 +84,16 @@ class CartCourseMembershipSchema(
         }
     }
 
-    override suspend fun read(id: String): CartCourseMembershipEntity? {
+    override suspend fun read(id: String): CartCourseMembershipEntity? = dbQuery {
         TODO("Not yet implemented")
     }
 
-    override suspend fun delete(id: String): CartCourseMembershipEntity? {
+    override suspend fun delete(id: String): CartCourseMembershipEntity? = dbQuery {
         TODO("Not yet implemented")
     }
 
-    override suspend fun update(id: String, entity: CartCourseMembershipEntity): CartCourseMembershipEntity? {
+    override suspend fun update(id: String, entity: CartCourseMembershipEntity)
+    : CartCourseMembershipEntity? = dbQuery {
         TODO("Not yet implemented")
     }
 }

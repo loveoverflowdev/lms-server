@@ -51,19 +51,12 @@ class CartCourseGroupMembershipSchema(
         }
     }
 
-    suspend fun addCourseGroupToCart(cartId: String, courseGroupId: String) {
-        val membership = CartCourseGroupMembershipTable.select {
-            CartCourseGroupMembershipTable.cartId.eq(cartId)
-                .and(CartCourseGroupMembershipTable.courseGroupId.eq(courseGroupId))
-        }.singleOrNull()
-
-        membership?.apply {
-            create(CartCourseGroupMembershipEntity(
-                id = "",
-                cartId = cartId,
-                courseGroupId = courseGroupId,
-            ))
-        } ?: throw SQLIntegrityConstraintViolationException("this course group did exist in the cart")
+    suspend fun addCourseGroupToCart(cartId: String, courseGroupId: String) = dbQuery {
+        create(CartCourseGroupMembershipEntity(
+            id = "",
+            cartId = cartId,
+            courseGroupId = courseGroupId,
+        ))
     }
 
     suspend fun removeCourseGroupFromCart(cartId: String, courseGroupId: String) {

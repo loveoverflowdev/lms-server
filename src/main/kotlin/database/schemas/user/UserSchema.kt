@@ -1,6 +1,5 @@
 package database.schemas.user
 
-import com.google.gson.annotations.SerializedName
 import database.schemas.base.BaseEntity
 import database.schemas.base.BaseSchema
 import database.schemas.base.BaseTable
@@ -168,7 +167,8 @@ class UserSchema(
         }
     }
 
-    suspend fun registerCustomer(email: String, phoneNumber: String, username: String, password: String): Customer {
+    suspend fun registerCustomer(email: String, phoneNumber: String, username: String, password: String)
+    : Customer {
         val salt = BCrypt.gensalt(5) // Generate a salt
         val hashedPassword = BCrypt.hashpw(password, salt)
         val user = create(UserEntity(
@@ -191,8 +191,6 @@ class UserSchema(
             hashedPassword = user.hashedPassword,
         )
     }
-
-
 
     override suspend fun create(entity: UserEntity)
     : UserEntity = dbQuery {
