@@ -1,3 +1,129 @@
+# A brief regarding API usage
+
+## Authentication
+- **Customer Register:**
+  `POST: /api/v1/authentication/customer/register`
+    - **Parameter**:
+      ```json
+      {
+          "username": <String, required>,
+          "phoneNumber": <String, required>,
+          "password": <String, required>,
+          "email": <String, required>,
+      }
+      ```
+    - **Response**:
+      ```json
+      {
+          "data": {
+              "id": <String>,
+              "username": <String>,
+              "displayName": <String>,
+              "email": <String>,
+              "phoneNumber": <String>,
+              "affilicateCode": <String>
+          },
+          "meta": {
+              "timestamp": <Int>
+          },
+          "status": {
+              "code": <Int>,
+              "message": <String>
+          }
+      }
+      ```
+- **Customer Login:**
+  `POST: /api/v1/authentication/customer/login `
+    - **Parameter**:
+      ```json
+      {
+          "usernameOrEmail": <String, required>,
+          "password": <String, required>
+      }
+      ```
+    - **Response:**
+      ```json
+      {
+          "data": {
+              "id": <String>,
+              "username": <String>,
+              "displayName": <String>,
+              "email": <String>,
+              "phoneNumber": <String>,
+              "affilicateCode": <String>
+          },
+          "meta": {
+              "timestamp": <Int>
+          },
+          "status": {
+              "code": <Int>,
+              "message": <String>
+          },
+          "tokens": {
+              "accessToken": <String>
+              "refreshToken": <String>
+          }
+      }
+      ```
+
+## Course
+- **Top Trending Courses:**
+  `GET: /api/v1/courses/top`
+    - **Response:**
+      ```json
+      {
+          "data": [
+              {
+                  "id": <String>,
+                  "title": <String>,
+                  "instructor": <String>,
+                  "coverImage": <String>,
+                  "description": <String>,
+                  "primaryCoins": <Int>,
+                  "secondaryCoins": <Int>
+              }
+          ],
+          "meta": {
+              "timestamp": <Int>
+          },
+          "status": {
+              "code": <Int>,
+              "message": <String>
+          }
+      }
+      ```
+
+## Customer Cart
+- **Course List In Cart:**
+  `GET: api/v1/customer-cart/course-list`
+    - **Authorization**:
+      `Brearer Token: <String>`
+    - **Response**:
+      ```json
+      {
+          "data": [
+              {
+                  "id": <String>,
+                  "title": <String>,
+                  "instructor": <String>,
+                  "coverImage": <String>,
+                  "description": <String>,
+                  "primaryCoins": <Int>,
+                  "secondaryCoins": <Int>
+              }
+          ],
+          "meta": {
+              "timestamp": <Int>
+          },
+          "status": {
+              "code": <Int>,
+              "message": <String>
+          }
+      }
+      ```
+- **Add Course To Cart:**
+- **Remove Course From Cart:**
+
 <pre>
 
                     ---==Lucky Coding==---

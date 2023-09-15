@@ -59,7 +59,7 @@ class CourseSchema(
     database: Database
 ) : BaseSchema<CourseTable, CourseEntity>(database) {
     suspend fun selectAll(): List<Course> = dbQuery {
-        CourseGroupTable
+        CourseTable
             .selectAll()
             .map {
                 Course(
