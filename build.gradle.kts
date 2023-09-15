@@ -31,6 +31,8 @@ dependencies {
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-server-status-pages:$ktor_version")
+    // CORS
+    implementation("io.ktor:ktor-server-cors:$ktor_version")
     // Serialization
     implementation("io.ktor:ktor-serialization-gson:$ktor_version")
     // Validation
