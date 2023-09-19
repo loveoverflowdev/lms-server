@@ -15,6 +15,7 @@ fun Application.configureBasic() {
     }
 
     install(CORS) {
+        anyHost()
         allowHeaders { true }
         allowSameOrigin = true
         allowCredentials = true
@@ -26,4 +27,3 @@ fun Application.configureBasic() {
         allowMethod(HttpMethod.Put)
     }
 }
-atsu

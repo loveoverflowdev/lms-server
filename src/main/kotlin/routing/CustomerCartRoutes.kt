@@ -1,9 +1,6 @@
 package routing
 
-import commands.AddCourseGroupToCustomerCartCommand
-import commands.AddCourseToCustomerCartCommand
-import commands.GetCourseGroupListInCustomerCartCommand
-import commands.GetCourseListInCustomerCartCommand
+import commands.*
 import dtos.products.course.CourseDTO
 import dtos.products.group.CourseGroupDTO
 import dtos.response.ResponseDTO
@@ -77,6 +74,27 @@ fun Route.customerCartRoutes() {
                 )
             }
 
+            delete("course/{id}") {
+                val principal = call.principal<JWTPrincipal>()
+                val customerId = principal!!.payload.getClaim("id").asString()
+                val courseId = call.parameters["id"]
+
+                val command = RemoveCourseFromCartCommand(
+                    courseId = courseId,
+                    customerId = customerId,
+                )
+
+                customerCartService.removeCourseFromCart(command)
+                call.respond(
+                    ResponseDTO(
+                        status = StatusDTO(
+                            code = 200,
+                        ),
+                        data = null,
+                    )
+                )
+            }
+
             post("course-group") {
                 val principal = call.principal<JWTPrincipal>()
                 val customerId = principal!!.payload.getClaim("id").asString()
@@ -85,6 +103,27 @@ fun Route.customerCartRoutes() {
                     customerId = customerId
                 )
                 customerCartService.addCourseGroupToCart(command)
+                call.respond(
+                    ResponseDTO(
+                        status = StatusDTO(
+                            code = 200,
+                        ),
+                        data = null,
+                    )
+                )
+            }
+
+            delete("course-group/{id}") {
+                val principal = call.principal<JWTPrincipal>()
+                val customerId = principal!!.payload.getClaim("id").asString()
+                val courseGroupId = call.parameters["id"]
+
+                val command = RemoveCourseGroupFromCartCommand(
+                    courseGroupId = courseGroupId,
+                    customerId = customerId,
+                )
+
+                customerCartService.removeCourseGroupFromCart(command)
                 call.respond(
                     ResponseDTO(
                         status = StatusDTO(

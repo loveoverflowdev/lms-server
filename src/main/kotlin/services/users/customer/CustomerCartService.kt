@@ -46,7 +46,7 @@ class CustomerCartService(
         cartRepository
             .getCartIdByUser(command.customerId)
             .let { cartId ->
-                cartRepository.addCourseGroupToCart(cartId, command.courseId ?: "")
+                cartRepository.removeCourseFromCart(cartId, command.courseId ?: "")
             }
     }
 
@@ -54,7 +54,7 @@ class CustomerCartService(
         return cartRepository
             .getCartIdByUser(command.customerId)
             .let { cartId ->
-                cartRepository.removeCourseFromCart(cartId, command.courseGroupId ?: "")
+                cartRepository.removeCourseGroupFromCart(cartId, command.courseGroupId ?: "")
             }
     }
 }
