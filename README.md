@@ -21,7 +21,8 @@
               "displayName": "", // string & required
               "email": "", // string & required
               "phoneNumber": "", // string & required
-              "affilicateCode": "" // string & required
+              "affilicateCode": "", // string & required
+              "primaryCoins": 0 // integer
           },
           "meta": {
               "timestamp": 0  // integer & required
@@ -50,7 +51,8 @@
               "displayName": "", // string & required
               "email": "", // string & required
               "phoneNumber": "", // string & required
-              "affilicateCode": "" // string & required
+              "affilicateCode": "", // string & required
+              "primaryCoins": 0 // integer
           },
           "meta": {
               "timestamp": 0 // integer & required

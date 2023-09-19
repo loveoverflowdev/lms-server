@@ -1,4 +1,4 @@
-package routing
+package routing.general
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
@@ -65,7 +65,8 @@ fun Route.authRoutes() {
                                     email = it.email,
                                     phoneNumber = it.phoneNumber,
                                     displayName = it.displayName,
-                                    affiliateCode = it.affiliateCode
+                                    affiliateCode = it.affiliateCode,
+                                    primaryCoins = it.primaryCoins,
                                 )
                             )
                         )

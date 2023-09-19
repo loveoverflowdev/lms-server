@@ -1,4 +1,4 @@
-package routing
+package routing.general
 
 import commands.*
 import io.ktor.server.application.*

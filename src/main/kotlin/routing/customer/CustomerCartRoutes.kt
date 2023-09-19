@@ -1,4 +1,4 @@
-package routing
+package routing.customer
 
 import commands.*
 import dtos.products.course.CourseDTO

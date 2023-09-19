@@ -32,6 +32,7 @@ data class UserEntity(
     val role: UserRole,
     val displayName: String,
     val affiliateCode: String,
+    val primaryCoins: Int?,
 ) : BaseEntity(id) {
     override fun toModel(): User {
         return when (role) {
@@ -43,7 +44,8 @@ data class UserEntity(
                     phoneNumber = this.phoneNumber,
                     hashedPassword = this.hashedPassword,
                     displayName = this.displayName,
-                    affiliateCode = this.affiliateCode
+                    affiliateCode = this.affiliateCode,
+                    primaryCoins = this.primaryCoins ?: 0,
                 )
             }
             UserRole.SELLER -> {
@@ -77,6 +79,7 @@ object UserTable: BaseTable("user") {
     val role = enumerationByName<UserRole>("role", length = 25)
     val displayName = varchar("display_name", length = 255)
     val affiliateCode = varchar("affiliate_code", length = 255)
+    val primaryCoins = integer("primary_coins").nullable()
 
     override val primaryKey = PrimaryKey(id)
 }
@@ -157,7 +160,8 @@ class UserSchema(
                     email = queriedUser[UserTable.email],
                     phoneNumber = queriedUser[UserTable.phoneNumber],
                     affiliateCode = queriedUser[UserTable.affiliateCode],
-                    hashedPassword = ""
+                    primaryCoins = queriedUser[UserTable.primaryCoins] ?: 0,
+                    hashedPassword = "",
                 )
             } else {
                 throw AuthenticationException("Mật khẩu không đúng")
@@ -180,6 +184,7 @@ class UserSchema(
             displayName = username,
             hashedPassword = hashedPassword,
             role = UserRole.CUSTOMER,
+            primaryCoins = 0,
         ))
         return Customer(
             id = user.id,
@@ -189,6 +194,7 @@ class UserSchema(
             username = user.username,
             displayName = user.displayName,
             hashedPassword = user.hashedPassword,
+            primaryCoins = 0,
         )
     }
 
@@ -211,7 +217,8 @@ class UserSchema(
                 hashedPassword = this[UserTable.hashedPassword],
                 role = this[UserTable.role],
                 displayName = this[UserTable.displayName],
-                affiliateCode = this[UserTable.affiliateCode]
+                affiliateCode = this[UserTable.affiliateCode],
+                primaryCoins = this[UserTable.primaryCoins],
             )
         }
     }
@@ -229,7 +236,8 @@ class UserSchema(
                 hashedPassword = it[UserTable.hashedPassword],
                 role = it[UserTable.role],
                 displayName = it[UserTable.displayName],
-                affiliateCode = it[UserTable.affiliateCode]
+                affiliateCode = it[UserTable.affiliateCode],
+                primaryCoins = it[UserTable.primaryCoins],
             )
         }.singleOrNull()
     }

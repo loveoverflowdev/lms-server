@@ -21,6 +21,9 @@ class CustomerDTO(
 
     @SerializedName(value = "affilicateCode")
     val affiliateCode: String,
+
+    @SerializedName(value = "primaryCoins")
+    val primaryCoins: Int,
 ) {
     companion object {
         fun of(model: Customer): CustomerDTO {
@@ -31,6 +34,7 @@ class CustomerDTO(
                 email = model.email,
                 phoneNumber = model.phoneNumber,
                 affiliateCode = model.affiliateCode,
+                primaryCoins = model.primaryCoins,
             )
         }
     }

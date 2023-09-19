@@ -1,4 +1,4 @@
-package routing
+package routing.general
 
 import commands.CreateCourseGroupCommand
 import commands.GetCourseGroupByIdCommand
