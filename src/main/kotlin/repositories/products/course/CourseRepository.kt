@@ -17,7 +17,7 @@ class CourseRepository: ICourseRepository {
     }
 
     override suspend fun findById(id: String): Course? {
-        TODO("Not yet implemented")
+        return courseSchema.read(id)?.toModel()
     }
 
     override suspend fun find(predicate: (Course) -> Boolean): List<Course> {

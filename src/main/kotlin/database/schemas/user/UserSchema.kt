@@ -184,7 +184,7 @@ class UserSchema(
             displayName = username,
             hashedPassword = hashedPassword,
             role = UserRole.CUSTOMER,
-            primaryCoins = 0,
+            primaryCoins = 200,
         ))
         return Customer(
             id = user.id,

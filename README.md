@@ -94,6 +94,30 @@
           }
       }
       ```
+- **Course Detail:** 
+`GET: /api/v1/course/{id}`
+      
+  - **Response:**
+      ```json5
+      {
+          "data": {
+              "id": "", // string & required
+              "title": "", // string & required
+              "instructor": "", // string & required
+              "coverImage": "", // string & required
+              "description": "", // string & required
+              "primaryCoins": 0, // integer & required
+              "secondaryCoins": 0 // integer & required
+          },
+          "meta": {
+              "timestamp": 0 // integer & required
+          }, 
+          "status": {
+              "code": 200, // integer & required
+              "message": "" // string & required
+          }
+      }
+      ```
 
 ## Customer Cart
 - **Course List In Cart:**
