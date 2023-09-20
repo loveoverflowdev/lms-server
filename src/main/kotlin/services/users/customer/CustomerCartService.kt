@@ -6,7 +6,7 @@ import models.products.group.CourseGroup
 import repositories.cart.ICartRepository
 
 class CustomerCartService(
-    val cartRepository: ICartRepository,
+    private val cartRepository: ICartRepository,
 ): ICustomerCartService {
     override suspend fun getCourseListInCart(command: GetCourseListInCustomerCartCommand): Result<List<Course>> {
         return cartRepository

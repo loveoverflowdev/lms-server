@@ -1,14 +1,11 @@
 package services.auth
 
 import commands.*
-import models.products.base.Product
-
 import repositories.user.IUserRepository
 
 import models.users.Admin
 import models.users.Customer
 import models.users.Seller
-
 
 class AuthService(
     private val userRepository: IUserRepository,

@@ -56,12 +56,14 @@ fun Route.customerCartRoutes() {
                 }.onFailure { throw it }
             }
 
-            post("course") {
+            post("course/{id}") {
                 val principal = call.principal<JWTPrincipal>()
+                val courseId = call.parameters["id"]
                 val customerId = principal!!.payload.getClaim("id").asString()
 
-                val command = call.receive<AddCourseToCustomerCartCommand>().copy(
-                    customerId = customerId
+                val command = AddCourseToCustomerCartCommand(
+                    customerId = customerId,
+                    courseId = courseId,
                 )
                 customerCartService.addCourseToCart(command)
                 call.respond(

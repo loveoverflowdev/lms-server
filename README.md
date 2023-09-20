@@ -148,9 +148,42 @@
       }
       ```
 - **Add Course To Cart:**
+`POST: api/v1/customer-cart/course/{id}`
+  - **Authorization**:
+    `Brearer Token: <String>`
+  - **Response**: 
+    ```json5
+    {
+        "meta": {
+            "timestamp": 0  // integer & required
+        },
+        "status": {
+            "code": 200, // integer & required
+            "message": "" // string & required
+        }
+    }
+    ```
+
 - **Remove Course From Cart:**
+`DELETE: api/v1/customer-cart/course/{id}`
+  - **Authorization**:
+    `Brearer Token: <String>`
+  - **Response**:
+    ```json5
+    {
+        "meta": {
+            "timestamp": 0  // integer & required
+        },
+        "status": {
+            "code": 200, // integer & required
+            "message": "" // string & required
+        }
+    }
+    ```
 
 <pre>
+                Kẻ trú non cao nhìn gió thẳm
+                Người xuôi sông lớn mộng kinh kỳ
 
                     ---==Lucky Coding==---
                              
