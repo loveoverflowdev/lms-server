@@ -22,7 +22,24 @@ object DatabaseFactory {
     }
 
     private fun initDB() {
-        val config = HikariConfig("/hikari.properties")
+        val dbHost = System.getenv("DB_HOST")
+        val dbPort = System.getenv("DB_PORT")
+        val dbUser = System.getenv("DB_USER")
+        val dbPassword = System.getenv("DB_PASSWORD")
+        val dbName = System.getenv("DB_NAME")
+
+        // Check if any of the required environment variables is missing
+        if (dbPort == null || dbUser == null || dbPassword == null) {
+            throw IllegalStateException("Missing one or more DB environment variables")
+        }
+
+        // Create a HikariCP configuration using the dynamic properties
+        val config = HikariConfig()
+        config.jdbcUrl = "jdbc:mysql://${dbHost}:${dbPort}/${dbName}?user=${dbUser}&password=${dbPassword}"
+
+        // Other HikariCP configuration options
+        config.maximumPoolSize = 10
+
         val dataSource = HikariDataSource(config)
         database = Database.connect(dataSource)
     }
