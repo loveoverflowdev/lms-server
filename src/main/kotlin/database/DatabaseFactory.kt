@@ -23,6 +23,7 @@ object DatabaseFactory {
 
     private fun initDB() {
         val dbHost = System.getenv("DB_HOST")
+
         val dbPort = System.getenv("DB_PORT")
         val dbUser = System.getenv("DB_USER")
         val dbPassword = System.getenv("DB_PASSWORD")

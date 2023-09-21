@@ -20,6 +20,7 @@ fun main() {
             configureAuthentication()
             configureStatusPage()
             configureRouting()
+            configWebApp()
         }
         connector {
             host = config.property("ktor.deployment.host").getString()
