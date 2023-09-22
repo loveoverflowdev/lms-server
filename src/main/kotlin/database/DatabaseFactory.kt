@@ -22,24 +22,26 @@ object DatabaseFactory {
     }
 
     private fun initDB() {
-        val dbHost = System.getenv("DB_HOST")
+//        val dbHost = System.getenv("DB_HOST")
+//        val dbPort = System.getenv("DB_PORT")
+//        val dbUser = System.getenv("DB_USER")
+//        val dbPassword = System.getenv("DB_PASSWORD")
+//        val dbName = System.getenv("DB_NAME")
 
-        val dbPort = System.getenv("DB_PORT")
-        val dbUser = System.getenv("DB_USER")
-        val dbPassword = System.getenv("DB_PASSWORD")
-        val dbName = System.getenv("DB_NAME")
-
-        // Check if any of the required environment variables is missing
-        if (dbPort == null || dbUser == null || dbPassword == null) {
-            throw IllegalStateException("Missing one or more DB environment variables")
-        }
-
-        // Create a HikariCP configuration using the dynamic properties
+        val jdbcUrl = System.getenv("JDBC_URL") ?: throw IllegalStateException("Missing JDBC_URL in environment variables")
         val config = HikariConfig()
-        config.jdbcUrl = "jdbc:mysql://${dbHost}:${dbPort}/${dbName}?user=${dbUser}&password=${dbPassword}"
+        config.jdbcUrl = jdbcUrl
+        config.username="root"
+        config.password="manhblue"
+        // config.jdbcUrl = "jdbc:mysql://127.0.0.1:3307/lms?user=root&password=root"
 
         // Other HikariCP configuration options
         config.maximumPoolSize = 10
+        config.connectionTimeout = 300
+        config.idleTimeout = 600000
+        config.driverClassName = "com.mysql.cj.jdbc.Driver"
+        config.isAutoCommit = false
+        config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
 
         val dataSource = HikariDataSource(config)
         database = Database.connect(dataSource)

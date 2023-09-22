@@ -1,5 +1,16 @@
 version: '3'
 services:
+#  mysql:
+#    image: mysql:latest
+#    environment:
+#      MYSQL_HOST: localhost
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: lms
+#    ports:
+#      - "3307:3306"
+#    volumes:
+#      - ./mysql-init:/docker-entrypoint-initdb.d
+
   app:
     build:
       context: .
@@ -7,19 +18,6 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DB_HOST: localhost
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_NAME: lms
-
-  mysql:
-    image: mysql:latest
-    environment:
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: lms
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./mysql-init:/docker-entrypoint-initdb.d
+      JDBC_URL: "jdbc:mysql://host.docker.internal:3306/lms_server?user=root&password=manhblue"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
