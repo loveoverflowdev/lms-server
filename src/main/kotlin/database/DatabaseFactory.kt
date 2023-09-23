@@ -31,8 +31,6 @@ object DatabaseFactory {
         val jdbcUrl = System.getenv("JDBC_URL") ?: throw IllegalStateException("Missing JDBC_URL in environment variables")
         val config = HikariConfig()
         config.jdbcUrl = jdbcUrl
-        config.username="root"
-        config.password="manhblue"
         // config.jdbcUrl = "jdbc:mysql://127.0.0.1:3307/lms?user=root&password=root"
 
         // Other HikariCP configuration options
@@ -40,8 +38,6 @@ object DatabaseFactory {
         config.connectionTimeout = 300
         config.idleTimeout = 600000
         config.driverClassName = "com.mysql.cj.jdbc.Driver"
-        config.isAutoCommit = false
-        config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
 
         val dataSource = HikariDataSource(config)
         database = Database.connect(dataSource)

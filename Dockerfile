@@ -7,7 +7,7 @@ WORKDIR /app
 
 
 # JDBC_URL Value
-ENV JDBC_URL="jdbc:mysql://host.docker.internal:3306/lms_server?user=root&password=manhblue"
+ENV JDBC_URL="jdbc:mysql://host.docker.internal:3306/lms?user=root&password=root"
 # ENV JDBC_URL="jdbc:mysql://localhost:3307/lms?user=root&password=root"
 
 COPY ./build/libs/*-all.jar /app/com.asura.lms-server-all.jar
