@@ -4,6 +4,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+# Include '*.jar' files under 'build/libs/' directory
+!build/libs/*-all.jar
+
 ### STS ###
 .apt_generated
 .classpath
