@@ -9,6 +9,8 @@ services:
     ports:
       - "3308:3306"
     # network_mode: "host"
+    networks:
+      - lms_internal
     volumes:
       - ./mysql-init:/docker-entrypoint-initdb.d
 
@@ -18,6 +20,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    networks:
+      - lms_internal
     environment:
       JDBC_URL: "jdbc:mysql://127.0.0.1:3306/lms?user=root&password=root&useSSL=false"
     network_mode: "host"
@@ -25,3 +29,8 @@ services:
 #      - "host.docker.internal:host-gateway"
     depends_on:
       - mysql
+
+networks:
+  lms_internal:
+    driver: bridge
+
