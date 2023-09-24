@@ -23,8 +23,8 @@ services:
     networks:
       - lms_internal
     environment:
-      JDBC_URL: "jdbc:mysql://127.0.0.1:3306/lms?user=root&password=root&useSSL=false"
-    network_mode: "host"
+      JDBC_URL: "jdbc:mysql://host.docker.internal:3306/lms?user=root&password=root&useSSL=false"
+#    network_mode: "host"
 #    extra_hosts:
 #      - "host.docker.internal:host-gateway"
     depends_on:
