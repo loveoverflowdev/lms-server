@@ -31,7 +31,6 @@ object DatabaseFactory {
         val jdbcUrl = System.getenv("JDBC_URL") ?: throw IllegalStateException("Missing JDBC_URL in environment variables")
         val config = HikariConfig()
         config.jdbcUrl = jdbcUrl
-        // config.jdbcUrl = "jdbc:mysql://127.0.0.1:3307/lms?user=root&password=root"
 
         // Other HikariCP configuration options
         config.maximumPoolSize = 10
