@@ -9,20 +9,26 @@ import models.users.Customer
 import models.users.Seller
 import models.users.base.User
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.mindrot.jbcrypt.BCrypt
 import javax.naming.AuthenticationException
 
-enum class UserRole(
+ enum class UserRole(
     private val rawValue: String,
 ) {
     CUSTOMER("customer"),
     SELLER("seller"),
     ADMIN("admin");
 
-    override fun toString(): String {
-        return rawValue
-    }
+     companion object Factory {
+         fun of(rawValue: String): UserRole {
+             return when (rawValue) {
+                 CUSTOMER.rawValue -> CUSTOMER
+                 SELLER.rawValue -> SELLER
+                 ADMIN.rawValue -> ADMIN
+                 else -> throw NotFoundException("Not found role corresponding rawValue: $rawValue")
+             }
+         }
+     }
 }
 
 data class UserEntity(
@@ -78,7 +84,11 @@ object UserTable: BaseTable("user") {
     val email = varchar("email", length = 255)
     val phoneNumber = varchar("phone_number", length = 255)
     val hashedPassword = varchar("hashed_password", length = 255)
-    val role = enumerationByName<UserRole>("role", length = 25)
+    val role = customEnumeration<UserRole>(
+        "role",
+        fromDb = { rawValue -> UserRole.of(rawValue as String)},
+        toDb = { value -> value.toString() }
+    )
     val displayName = varchar("display_name", length = 255)
     val affiliateCode = varchar("affiliate_code", length = 255)
     val primaryCoins = integer("primary_coins").nullable()
@@ -265,13 +275,14 @@ class UserSchema(
         UserTable.select {
             UserTable.id.eq(id)
         }.map {
+            print(it)
             UserEntity(
                 id = it[UserTable.id].value,
                 username = it[UserTable.username],
                 email = it[UserTable.email],
                 phoneNumber = it[UserTable.phoneNumber],
                 hashedPassword = it[UserTable.hashedPassword],
-                role = UserRole.CUSTOMER,
+                role = it[UserTable.role],
                 displayName = it[UserTable.displayName],
                 affiliateCode = it[UserTable.affiliateCode],
                 primaryCoins = it[UserTable.primaryCoins],
