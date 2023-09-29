@@ -9,6 +9,6 @@ interface IUserRepository {
     suspend fun authenticateSeller(username: String, password: String): Seller
     suspend fun authenticateCustomer(usernameOrEmail: String, password: String): Customer
     suspend fun registerCustomer(email: String, phoneNumber: String, username: String, password: String): Customer
-    suspend fun grantCoinsToCustomer(customerId: String, primaryCoins: Int)
+    suspend fun grantCoinsToCustomer(customerId: String, primaryCoins: Int): Customer
     suspend fun getCustomer(id: String): Customer?
 }

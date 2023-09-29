@@ -9,6 +9,7 @@ import models.users.Customer
 import models.users.Seller
 import models.users.base.User
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.mindrot.jbcrypt.BCrypt
 import javax.naming.AuthenticationException
 
@@ -89,9 +90,9 @@ class UserSchema(
     database: Database,
 ) : BaseSchema<UserTable, UserEntity>(database) {
     private fun isPasswordValid(inputPassword: String, storedHashedPassword: String): Boolean {
-
         return BCrypt.checkpw(inputPassword, storedHashedPassword)
     }
+
     suspend fun authenticateAdmin(username: String, password: String)
     : Admin = dbQuery {
             val queriedUser = UserTable.select {
@@ -142,7 +143,6 @@ class UserSchema(
             throw AuthenticationException("Tên đăng nhập không tồn tại")
         }
     }
-
 
     suspend fun authenticateCustomer(usernameOrEmail: String, password: String)
     : Customer = dbQuery {
@@ -216,10 +216,23 @@ class UserSchema(
         )
     }
 
-    suspend fun grantCoinsToCustomer(customerId: String, primaryCoins: Int) {
+    suspend fun grantCoinsToCustomer(customerId: String, primaryCoins: Int)
+    : Customer {
         val user = read(id = customerId)
         val customer = if (user?.role == UserRole.CUSTOMER) user else throw NotFoundException("Not found customer")
-        update(customerId, entity = customer.copy(primaryCoins = primaryCoins))
+        val newPrimaryCoins = primaryCoins + (customer.primaryCoins ?: 0);
+        val updatedCustomerEntity = update(
+            customerId, entity = customer.copy(primaryCoins = newPrimaryCoins)) ?: throw NotFoundException("Not found customer after updated")
+        return Customer(
+            id = updatedCustomerEntity.id,
+            displayName = updatedCustomerEntity.displayName,
+            username = updatedCustomerEntity.username,
+            hashedPassword = updatedCustomerEntity.hashedPassword,
+            email = updatedCustomerEntity.email,
+            phoneNumber = updatedCustomerEntity.phoneNumber,
+            affiliateCode = updatedCustomerEntity.affiliateCode,
+            primaryCoins = updatedCustomerEntity.primaryCoins ?: 0,
+        )
     }
 
     override suspend fun create(entity: UserEntity)
@@ -258,7 +271,7 @@ class UserSchema(
                 email = it[UserTable.email],
                 phoneNumber = it[UserTable.phoneNumber],
                 hashedPassword = it[UserTable.hashedPassword],
-                role = it[UserTable.role],
+                role = UserRole.CUSTOMER,
                 displayName = it[UserTable.displayName],
                 affiliateCode = it[UserTable.affiliateCode],
                 primaryCoins = it[UserTable.primaryCoins],
@@ -270,7 +283,25 @@ class UserSchema(
         TODO("Not yet implemented")
     }
 
-    override suspend fun update(id: String, entity: UserEntity): UserEntity? {
-        TODO("Not yet implemented")
+    override suspend fun update(id: String, entity: UserEntity)
+    : UserEntity? = dbQuery {
+        UserTable.update({
+            UserTable.id.eq(id)
+        }) {
+            it[username] = entity.username
+            it[email] = entity.email
+            it[displayName] = entity.displayName
+            it[role] = entity.role
+            it[affiliateCode] = entity.affiliateCode
+            it[phoneNumber] = entity.phoneNumber
+            it[primaryCoins] = entity.primaryCoins
+            it[hashedPassword] = entity.hashedPassword
+        }.let { updateResult ->
+            if (updateResult > 0) {
+                entity.copy(id = id)
+            } else {
+                null
+            }
+        }
     }
 }

@@ -53,7 +53,7 @@ fun Application.configureRequestValidation() {
         validate<AddCourseToGroupCommand>() { command ->
             if (command.courseGroupId.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [courseGroupId] in the request")
-            } else if (command.id.isNullOrBlank()) {
+            } else if (command.courseId.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [courseId] in the request")
             } else {
                 ValidationResult.Valid
@@ -78,7 +78,7 @@ fun Application.configureRequestValidation() {
             if (command.customerId.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [customerId] in the request")
             } else if (command.primaryCoins == null) {
-                ValidationResult.Invalid("Missing [customerId] in the request")
+                ValidationResult.Invalid("Missing [primaryCoins] in the request")
             } else {
                 ValidationResult.Valid
             }

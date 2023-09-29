@@ -84,7 +84,7 @@ fun Route.authRoutes() {
                             .withAudience(audience)
                             .withIssuer(issuer)
                             .withClaim("id", it.id)
-                            .withExpiresAt(Date(System.currentTimeMillis() + 100000))
+                            .withExpiresAt(Date(System.currentTimeMillis() + 108_000_000))
                             .sign(Algorithm.HMAC256(secret))
 
                         call.respond(
@@ -107,7 +107,7 @@ fun Route.authRoutes() {
                             .withAudience(audience)
                             .withIssuer(issuer)
                             .withClaim("id", it.id)
-                            .withExpiresAt(Date(System.currentTimeMillis() + 100000))
+                            .withExpiresAt(Date(System.currentTimeMillis() + 108_000_000))
                             .sign(Algorithm.HMAC256(secret))
 
                         call.respond(
@@ -117,7 +117,6 @@ fun Route.authRoutes() {
                         )
                     }
                     .onFailure { throw it }
-
             }
         }
     }

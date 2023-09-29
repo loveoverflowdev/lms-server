@@ -1,10 +1,13 @@
 package routing.admin
 
 import commands.GrantCoinsToCustomerCommand
+import dtos.response.ResponseDTO
+import dtos.users.CustomerDTO
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import repositories.user.IUserRepository
 import repositories.user.UserRepository
@@ -24,7 +27,13 @@ fun Route.coinsGrantRoutes() {
                         customerId = command.customerId,
                         primaryCoins = command.primaryCoins,
                     )
-                )
+                ).onSuccess {
+                    call.respond(
+                        ResponseDTO(
+                            data = CustomerDTO.of(it)
+                        )
+                    )
+                }.onFailure { throw it }
             }
         }
     }

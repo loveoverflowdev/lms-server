@@ -83,8 +83,8 @@ class DeleteCourseGroupCommand(
 )
 
 class AddCourseToGroupCommand(
-    @SerializedName(value = "id")
-    val id: String?,
+    @SerializedName(value = "courseId")
+    val courseId: String?,
     @SerializedName(value = "courseGroupId")
     val courseGroupId: String?
 )

@@ -91,7 +91,6 @@ fun Route.courseRoutes() {
                     ))
                 }
                 .onFailure { throw it }
-
         }
     }
 }
