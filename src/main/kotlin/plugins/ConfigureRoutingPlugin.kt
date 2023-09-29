@@ -2,6 +2,7 @@ package plugins
 
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
+import routing.admin.coinsGrantRoutes
 import routing.customer.customerCartRoutes
 import routing.general.authRoutes
 import routing.general.courseGroupRoutes
@@ -13,7 +14,12 @@ fun Application.configureRouting() {
             authRoutes()
             courseRoutes()
             courseGroupRoutes()
-            customerCartRoutes()
+            route("/customer") {
+                customerCartRoutes()
+            }
+            route("/admin") {
+                coinsGrantRoutes()
+            }
         }
     }
 }

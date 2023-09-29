@@ -44,4 +44,12 @@ class UserRepository: IUserRepository {
             ))
         }
     }
+
+    override suspend fun grantCoinsToCustomer(customerId: String, primaryCoins: Int) {
+        userSchema.grantCoinsToCustomer(customerId, primaryCoins)
+    }
+
+    override suspend fun getCustomer(id: String): Customer? {
+        return userSchema.readCustomer(id)
+    }
 }

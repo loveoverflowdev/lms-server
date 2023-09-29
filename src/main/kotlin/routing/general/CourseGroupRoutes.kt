@@ -48,7 +48,7 @@ fun Route.courseGroupRoutes() {
                 throw BadRequestException("Missing [id] for course group deleting")
             }
             val command = GetCourseGroupByIdCommand(id)
-            courseGroupService.getCourseGroupById(command)
+            courseGroupService.getCourseGroup(command)
 
 
         }
@@ -86,7 +86,7 @@ fun Route.courseGroupRoutes() {
             if (id.isNullOrBlank()) {
                 throw BadRequestException("Missing [id] for course group deleting")
             }
-            val command = call
+            TODO("Come soon!")
         }
     }
 }

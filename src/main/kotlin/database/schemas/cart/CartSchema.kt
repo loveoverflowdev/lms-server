@@ -41,7 +41,7 @@ class CartSchema(
     database: Database
 ) : BaseSchema<CartTable, CartEntity>(database) {
 
-    suspend fun getCartIdByUser(userId: String): String = dbQuery {
+    suspend fun getCartId(userId: String): String = dbQuery {
         CartTable.select {
             CartTable.userId.eq(userId)
         }
@@ -51,7 +51,7 @@ class CartSchema(
             } ?: throw SQLException("Not found cart id by user id: $userId")
     }
 
-    override suspend fun create(entity: CartEntity): CartEntity = dbQuery {
+    public override suspend fun create(entity: CartEntity): CartEntity = dbQuery {
         CartTable.insert {
             it[userId] = entity.userId
         }.run {

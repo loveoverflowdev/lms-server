@@ -74,5 +74,14 @@ fun Application.configureRequestValidation() {
                 ValidationResult.Valid
             }
         }
+        validate<GrantCoinsToCustomerCommand>() { command ->
+            if (command.customerId.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [customerId] in the request")
+            } else if (command.primaryCoins == null) {
+                ValidationResult.Invalid("Missing [customerId] in the request")
+            } else {
+                ValidationResult.Valid
+            }
+        }
     }
 }

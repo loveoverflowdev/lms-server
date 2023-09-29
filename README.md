@@ -121,7 +121,7 @@
 
 ## Customer Cart
 - **Course List In Cart:**
-  `GET: api/v1/customer-cart/course-list`
+  `GET: api/v1/customer/cart/course-list`
     - **Authorization**:
       `Brearer Token: <String>`
     - **Response**:

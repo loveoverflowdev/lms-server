@@ -4,7 +4,7 @@ import models.products.course.Course
 import models.products.group.CourseGroup
 
 interface ICartRepository {
-    suspend fun getCartIdByUser(userId: String): String
+    suspend fun getCartId(userId: String): String
     suspend fun getCourseListInCart(cartId: String): List<Course>
     suspend fun addCourseToCart(cartId: String, courseId: String)
     suspend fun removeCourseFromCart(cartId: String, courseId: String)

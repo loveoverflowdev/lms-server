@@ -1,7 +1,6 @@
 package services.products.course
 
 import commands.*
-import database.schemas.course.CourseSchema
 import models.products.course.Course
 import repositories.products.course.ICourseRepository
 
@@ -18,7 +17,7 @@ class CourseService(
     }
 
     override suspend fun getCourseById(command: GetCourseByIdCommand): Result<Course?> {
-        return courseRepository.findById(command.id ?: "").run {
+        return courseRepository.find(command.id ?: "").run {
             Result.success(this)
         }
     }

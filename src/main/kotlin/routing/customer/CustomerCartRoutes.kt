@@ -13,14 +13,14 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import repositories.cart.CartRepository
 import repositories.cart.ICartRepository
-import services.users.customer.CustomerCartService
-import services.users.customer.ICustomerCartService
+import services.cart.CustomerCartService
+import services.cart.ICustomerCartService
 
 val cartRepository: ICartRepository = CartRepository()
 val customerCartService: ICustomerCartService = CustomerCartService(cartRepository)
 
 fun Route.customerCartRoutes() {
-    route("/customer-cart") {
+    route("/cart") {
         authenticate("auth-jwt") {
             get("course-list") {
                 val principal = call.principal<JWTPrincipal>()

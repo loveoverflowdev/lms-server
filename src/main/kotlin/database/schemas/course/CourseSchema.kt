@@ -74,6 +74,22 @@ class CourseSchema(
             }
     }
 
+    suspend fun findCourse(id: String): Course? {
+        return read(id)?.toModel()
+    }
+    suspend fun createCourse(model: Course): Course {
+        return create(CourseEntity.of(model)).toModel()
+    }
+
+    suspend fun deleteCourse(id: String): Course? {
+        return delete(id)?.toModel()
+    }
+
+    suspend fun updateCourse(id: String, model: Course): Course? {
+        return update(id, CourseEntity.of(model))?.toModel()
+    }
+
+
     override suspend fun create(entity: CourseEntity)
     : CourseEntity = dbQuery {
          CourseTable.insert {

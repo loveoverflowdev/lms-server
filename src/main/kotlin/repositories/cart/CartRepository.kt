@@ -2,12 +2,10 @@ package repositories.cart;
 
 import database.DatabaseFactory
 import database.schemas.cart.CartSchema
-import database.schemas.cart.CartTable
 import database.schemas.membership.CartCourseGroupMembershipSchema
 import database.schemas.membership.CartCourseMembershipSchema
 import models.products.course.Course
 import models.products.group.CourseGroup
-import org.jetbrains.exposed.sql.select
 
 class CartRepository: ICartRepository {
 
@@ -23,8 +21,8 @@ class CartRepository: ICartRepository {
         database = DatabaseFactory.databaseShared
     )
 
-    override suspend fun getCartIdByUser(userId: String): String {
-        return cartSchema.getCartIdByUser(userId)
+    override suspend fun getCartId(userId: String): String {
+        return cartSchema.getCartId(userId)
     }
 
     override suspend fun getCourseListInCart(cartId: String): List<Course> {

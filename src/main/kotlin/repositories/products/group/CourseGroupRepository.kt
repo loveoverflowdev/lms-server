@@ -18,11 +18,7 @@ class CourseGroupRepository: ICourseGroupRepository {
     )
 
     override suspend fun addCourseToGroup(courseId: String, courseGroupId: String) {
-        courseGroupMembershipSchema.create(CourseGroupMembershipEntity(
-            id = "",
-            courseId = courseId,
-            courseGroupId = courseGroupId
-        ))
+        courseGroupMembershipSchema.link(courseId, courseGroupId)
     }
 
     override suspend fun removeCourseFromGroup(courseId: String, courseGroupId: String) {
@@ -36,21 +32,19 @@ class CourseGroupRepository: ICourseGroupRepository {
         return courseGroupSchema.selectAll()
     }
 
-    override suspend fun findById(id: String): CourseGroup? {
+    override suspend fun find(id: String): CourseGroup? {
         TODO()
     }
 
     override suspend fun create(model: CourseGroup): CourseGroup {
-        return courseGroupSchema.create(CourseGroupEntity.of(model)).toModel()
+        return courseGroupSchema.createCourseGroup(model)
     }
 
     override suspend fun delete(id: String): CourseGroup? {
-        return courseGroupSchema.delete(id)?.toModel()
+        return courseGroupSchema.deleteCourseGroup(id)
     }
 
     override suspend fun update(id: String, model: CourseGroup): CourseGroup? {
-        return courseGroupSchema
-            .update(id, CourseGroupEntity.of(model))
-            ?.toModel()
+        return courseGroupSchema.updateCourseGroup(id, model)
     }
 }

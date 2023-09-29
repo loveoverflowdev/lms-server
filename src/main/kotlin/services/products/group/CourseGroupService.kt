@@ -11,12 +11,12 @@ class CourseGroupService(
         return Result.success(courseGroupRepository.getAll())
     }
 
-    override suspend fun getCourseGroupListBySearchTextCommand(command: GetCourseListBySearchTextCommand): Result<List<CourseGroup>> {
+    override suspend fun getCourseGroupList(command: GetCourseListBySearchTextCommand): Result<List<CourseGroup>> {
         return Result.success(courseGroupRepository.getAll())
     }
 
-    override suspend fun getCourseGroupById(command: GetCourseGroupByIdCommand): Result<CourseGroup?> {
-        return courseGroupRepository.findById(command.id ?: "")?.run {
+    override suspend fun getCourseGroup(command: GetCourseGroupByIdCommand): Result<CourseGroup?> {
+        return courseGroupRepository.find(command.id ?: "")?.run {
             Result.success(this)
         } ?: Result.failure(Exception("Cannot get course by id: ${command.id ?: ""}"))
     }
@@ -24,13 +24,13 @@ class CourseGroupService(
     override suspend fun createCourseGroup(command: CreateCourseGroupCommand): Result<CourseGroup> {
         return courseGroupRepository.create(command.toModel())?.run {
             Result.success(this)
-        } ?: Result.failure(Exception("Cannot create course by id: ${command.id ?: ""}"))
+        } ?: Result.failure(Exception("Cannot create course by id: ${command.id}"))
     }
 
     override suspend fun updateCourseGroup(command: UpdateCourseGroupCommand): Result<CourseGroup> {
         return courseGroupRepository.update(command.id, command.toModel())?.run {
             Result.success(this)
-        } ?: Result.failure(Exception("Cannot update course by id: ${command.id ?: ""}"))
+        } ?: Result.failure(Exception("Cannot update course by id: ${command.id}"))
     }
 
     override suspend fun deleteCourseGroup(command: DeleteCourseGroupCommand): Result<CourseGroup> {

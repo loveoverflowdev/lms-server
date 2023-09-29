@@ -29,6 +29,14 @@ object CourseGroupMembershipTable: BaseTable("course_group_membership") {
 class CourseGroupMembershipSchema(
     database: Database
 ) : BaseSchema<CourseGroupMembershipTable, CourseGroupMembershipEntity>(database) {
+    suspend fun link(courseId: String, courseGroupId: String) {
+        create(CourseGroupMembershipEntity(
+            id = "",
+            courseId = courseId,
+            courseGroupId = courseGroupId
+        ))
+    }
+
     override suspend fun create(entity: CourseGroupMembershipEntity)
     : CourseGroupMembershipEntity = dbQuery {
         CourseGroupMembershipTable.insert {

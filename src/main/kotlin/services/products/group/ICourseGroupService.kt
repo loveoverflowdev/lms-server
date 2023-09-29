@@ -7,10 +7,10 @@ interface ICourseGroupService {
     suspend fun getCourseGroupListOnTop(command: GetCourseGroupListOnTopCommand)
     : Result<List<CourseGroup>>
 
-    suspend fun getCourseGroupListBySearchTextCommand(command: GetCourseListBySearchTextCommand)
+    suspend fun getCourseGroupList(command: GetCourseListBySearchTextCommand)
     : Result<List<CourseGroup>>
 
-    suspend fun getCourseGroupById(command: GetCourseGroupByIdCommand)
+    suspend fun getCourseGroup(command: GetCourseGroupByIdCommand)
     : Result<CourseGroup?>
 
     suspend fun createCourseGroup(command: CreateCourseGroupCommand) : Result<CourseGroup>

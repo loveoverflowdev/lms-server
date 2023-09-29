@@ -1,4 +1,4 @@
-package services.users.customer
+package services.cart
 
 import commands.*
 import models.products.course.Course

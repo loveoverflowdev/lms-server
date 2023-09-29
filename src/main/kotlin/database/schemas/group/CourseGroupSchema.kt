@@ -68,6 +68,19 @@ class CourseGroupSchema(
             }
     }
 
+    suspend fun updateCourseGroup(id: String, model: CourseGroup): CourseGroup?  {
+        return update(id, CourseGroupEntity.of(model))
+            ?.toModel()
+    }
+
+    suspend fun deleteCourseGroup(id: String): CourseGroup? {
+        return delete(id)?.toModel()
+    }
+
+    suspend fun createCourseGroup(model: CourseGroup): CourseGroup {
+        return create(CourseGroupEntity.of(model)).toModel()
+    }
+
     override suspend fun create(entity: CourseGroupEntity)
     : CourseGroupEntity = dbQuery {
         CourseGroupTable.insert {

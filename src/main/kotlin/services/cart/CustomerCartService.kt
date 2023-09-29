@@ -1,4 +1,4 @@
-package services.users.customer
+package services.cart
 
 import commands.*
 import models.products.course.Course
@@ -10,7 +10,7 @@ class CustomerCartService(
 ): ICustomerCartService {
     override suspend fun getCourseListInCart(command: GetCourseListInCustomerCartCommand): Result<List<Course>> {
         return cartRepository
-            .getCartIdByUser(command.customerId)
+            .getCartId(command.customerId)
             .let { cartId ->
                 val courseList = cartRepository.getCourseListInCart(cartId)
                 Result.success(courseList)
@@ -19,7 +19,7 @@ class CustomerCartService(
 
     override suspend fun getCourseGroupListInCart(command: GetCourseGroupListInCustomerCartCommand): Result<List<CourseGroup>> {
         return cartRepository
-            .getCartIdByUser(command.customerId)
+            .getCartId(command.customerId)
             .let { cartId ->
                 val courseGroupList = cartRepository.getCourseGroupListInCart(cartId)
                 Result.success(courseGroupList)
@@ -28,7 +28,7 @@ class CustomerCartService(
 
     override suspend fun addCourseToCart(command: AddCourseToCustomerCartCommand) {
         cartRepository
-            .getCartIdByUser(command.customerId)
+            .getCartId(command.customerId)
             .let { cartId ->
                 cartRepository.addCourseToCart(cartId, command.courseId ?: "")
             }
@@ -36,7 +36,7 @@ class CustomerCartService(
 
     override suspend fun addCourseGroupToCart(command: AddCourseGroupToCustomerCartCommand){
         cartRepository
-            .getCartIdByUser(command.customerId)
+            .getCartId(command.customerId)
             .let { cartId ->
                 cartRepository.addCourseGroupToCart(cartId, command.courseGroupId ?: "")
             }
@@ -44,7 +44,7 @@ class CustomerCartService(
 
     override suspend fun removeCourseFromCart(command: RemoveCourseFromCartCommand) {
         cartRepository
-            .getCartIdByUser(command.customerId)
+            .getCartId(command.customerId)
             .let { cartId ->
                 cartRepository.removeCourseFromCart(cartId, command.courseId ?: "")
             }
@@ -52,7 +52,7 @@ class CustomerCartService(
 
     override suspend fun removeCourseGroupFromCart(command: RemoveCourseGroupFromCartCommand) {
         return cartRepository
-            .getCartIdByUser(command.customerId)
+            .getCartId(command.customerId)
             .let { cartId ->
                 cartRepository.removeCourseGroupFromCart(cartId, command.courseGroupId ?: "")
             }

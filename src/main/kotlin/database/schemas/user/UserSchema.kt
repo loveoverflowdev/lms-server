@@ -3,6 +3,7 @@ package database.schemas.user
 import database.schemas.base.BaseEntity
 import database.schemas.base.BaseSchema
 import database.schemas.base.BaseTable
+import io.ktor.server.plugins.*
 import models.users.Admin
 import models.users.Customer
 import models.users.Seller
@@ -196,6 +197,29 @@ class UserSchema(
             hashedPassword = user.hashedPassword,
             primaryCoins = 0,
         )
+    }
+
+    suspend fun readCustomer(id: String): Customer? {
+        val user = read(id = id)
+        if (user?.role != UserRole.CUSTOMER) {
+            return null
+        }
+        return Customer(
+            id = user.id,
+            displayName = user.displayName,
+            username = user.username,
+            hashedPassword = user.hashedPassword,
+            email = user.email,
+            phoneNumber = user.phoneNumber,
+            primaryCoins = user.primaryCoins ?: 0,
+            affiliateCode = user.affiliateCode,
+        )
+    }
+
+    suspend fun grantCoinsToCustomer(customerId: String, primaryCoins: Int) {
+        val user = read(id = customerId)
+        val customer = if (user?.role == UserRole.CUSTOMER) user else throw NotFoundException("Not found customer")
+        update(customerId, entity = customer.copy(primaryCoins = primaryCoins))
     }
 
     override suspend fun create(entity: UserEntity)
