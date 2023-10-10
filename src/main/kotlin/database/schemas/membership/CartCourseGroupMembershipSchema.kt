@@ -3,6 +3,7 @@ package database.schemas.membership
 import database.schemas.base.BaseEntity
 import database.schemas.base.BaseSchema
 import database.schemas.base.BaseTable
+import database.schemas.cart.CartTable
 import database.schemas.course.CourseTable
 import database.schemas.group.CourseGroupEntity
 import database.schemas.group.CourseGroupTable
@@ -22,8 +23,8 @@ data class CartCourseGroupMembershipEntity(
 }
 
 object CartCourseGroupMembershipTable: BaseTable("cart_course_group_membership") {
-    val courseGroupId = reference("course_group_id", id)
-    val cartId = reference("cart_id", id)
+    val courseGroupId = reference("course_group_id", CourseGroupTable.id)
+    val cartId = reference("cart_id", CartTable.id)
 
     override val primaryKey = PrimaryKey(id)
 }

@@ -1,10 +1,11 @@
 package models.enrollments.base
 
 import kotlinx.datetime.LocalDateTime
+import models.base.Model
 
 abstract class Enrollment(
-    val id: String,
+    id: String,
     val userId: String,
     val enrollmentDateTime: LocalDateTime,
-    val expiredDateTime: LocalDateTime
-)
+    val expirationDateTime: LocalDateTime
+): Model(id = id)

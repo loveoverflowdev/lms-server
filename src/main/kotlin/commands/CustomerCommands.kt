@@ -40,14 +40,51 @@ data class AddCourseGroupToCustomerCartCommand(
     val customerId: String,
 )
 
-data class RemoveCourseFromCartCommand(
+class RemoveCourseFromCartCommand(
     @SerializedName(value="courseId")
     val courseId: String?,
     val customerId: String,
 )
 
-data class RemoveCourseGroupFromCartCommand(
+class RemoveCourseGroupFromCartCommand(
     @SerializedName(value="courseGroupId")
     val courseGroupId: String?,
+
+    @SerializedName(value="customerId")
     val customerId: String,
 )
+
+class CustomerEnrollCourseCommand(
+    @SerializedName(value="customerId")
+    val customerId: String?,
+
+    @SerializedName(value="courseId")
+    val courseId: String?
+)
+
+class CustomerEnrollCourseGroupCommand(
+    @SerializedName(value="customerId")
+    val customerId: String?,
+
+    @SerializedName(value="courseGroupId")
+    val courseGroupId: String?
+)
+
+
+class ViewCourseEnrollmentListCommand(
+    val customerId: String?
+)
+
+class ViewCourseGroupEnrollmentListCommand(
+    val customerId: String?
+)
+
+class ViewCourseEnrollmentCommand(
+    val enrollmentId: String?
+)
+
+class ViewCourseGroupEnrollmentCommand(
+    val enrollmentId: String?
+)
+
+

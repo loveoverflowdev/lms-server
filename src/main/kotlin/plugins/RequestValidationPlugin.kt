@@ -6,7 +6,7 @@ import io.ktor.server.plugins.requestvalidation.*
 
 fun Application.configureRequestValidation() {
     install(RequestValidation) {
-        validate<CustomerLogInCommand>() { command ->
+        validate<CustomerLogInCommand> { command ->
             if (command.usernameOrEmail.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [username] or [email] in the request")
             } else if(command.password.isNullOrBlank()) {
@@ -15,7 +15,7 @@ fun Application.configureRequestValidation() {
                 ValidationResult.Valid
             }
         }
-        validate<CustomerRegisterCommand>() { command ->
+        validate<CustomerRegisterCommand> { command ->
             if (command.username.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [username] in the request")
             } else if(command.password.isNullOrBlank()) {
@@ -50,7 +50,7 @@ fun Application.configureRequestValidation() {
                 ValidationResult.Valid
             }
         }
-        validate<AddCourseToGroupCommand>() { command ->
+        validate<AddCourseToGroupCommand> { command ->
             if (command.courseGroupId.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [courseGroupId] in the request")
             } else if (command.courseId.isNullOrBlank()) {
@@ -60,25 +60,34 @@ fun Application.configureRequestValidation() {
             }
         }
 
-        validate<AddCourseToCustomerCartCommand>() { command ->
+        validate<AddCourseToCustomerCartCommand> { command ->
             if (command.courseId.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [courseId] in the request")
             } else {
                 ValidationResult.Valid
             }
         }
-        validate<AddCourseGroupToCustomerCartCommand>() { command ->
+        validate<AddCourseGroupToCustomerCartCommand> { command ->
             if (command.courseGroupId.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [courseGroupId] in the request")
             } else {
                 ValidationResult.Valid
             }
         }
-        validate<GrantCoinsToCustomerCommand>() { command ->
+        validate<GrantCoinsToCustomerCommand> { command ->
             if (command.customerId.isNullOrBlank()) {
                 ValidationResult.Invalid("Missing [customerId] in the request")
             } else if (command.primaryCoins == null) {
                 ValidationResult.Invalid("Missing [primaryCoins] in the request")
+            } else {
+                ValidationResult.Valid
+            }
+        }
+        validate<CustomerEnrollCourseCommand> { command ->
+            if (command.courseId.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [courseId] in the request")
+            } else if (command.customerId.isNullOrBlank()) {
+                ValidationResult.Invalid("Missing [customerId] in the request")
             } else {
                 ValidationResult.Valid
             }
