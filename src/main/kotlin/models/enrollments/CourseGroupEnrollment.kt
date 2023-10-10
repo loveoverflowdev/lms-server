@@ -7,12 +7,12 @@ class CourseGroupEnrollment(
     id: String,
     userId: String,
     enrollmentDateTime: LocalDateTime,
-    expiredDateTime: LocalDateTime,
+    expirationDateTime: LocalDateTime,
 
     val courseGroupId: String
 ) : Enrollment(
     id = id,
     userId = userId,
     enrollmentDateTime = enrollmentDateTime,
-    expiredDateTime = expiredDateTime,
+    expirationDateTime = expirationDateTime,
 )
