@@ -10,7 +10,7 @@ plugins {
 
 group = "com.asura"
 version = "0.0.1"
-java -jar build/libs/com.asura.lms-server-all.jar
+
 application {
     mainClass.set("ApplicationKt")
 
